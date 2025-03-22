@@ -1,35 +1,17 @@
-use pulldown_cmark::{ Parser, Options, Event, Tag, TagEnd };
+use pulldown_cmark::{ Parser, Options, Event, Tag, TagEnd, CodeBlockKind };
 use incodoc::*;
 
 const INPUT: &str = "
-# Header
+# head
 
-haha this is some text.
-and some more.
-new sentence.
+This is some `inline code`.
+Now we will end this paragraph.
 
-new paragraph?
-yes it is.
+``` rust
+let x = 0;
+```
 
-## H2
-
-h2 par
-
-#### H4
-
-h4 par
-
-### H3
-
-h3 par
-
-###### H6
-
-h6 par
-
-## H2
-
-h2 par
+test
 ";
 
 pub fn test() -> Doc {
@@ -39,28 +21,35 @@ pub fn test() -> Doc {
 
     let mut doc = Doc::default();
     let mut string = String::new();
+    let mut scap = false; // string capture: if a tag started that captures a string
     let mut par = Paragraph::default();
     let mut head = Heading::default();
+    let mut pre_head = true;
     let mut section_items = Vec::new();
     let mut pre_sections = Vec::new();
+    let mut code_lang = "plain".to_string();
+    let mut code_block = CodeBlock::default();
 
     for event in parser {
+        // println!("{:?}", event);
         match event {
             Event::Text(text) => {
                 string.push_str(&text);
                 string.push('\n');
-                println!("  T");
+                if !scap {
+                    par.items.push(ParagraphItem::Text(std::mem::take(&mut string)));
+                }
             },
             Event::Start(Tag::Paragraph) => {
-                println!("+P");
             },
             Event::End(TagEnd::Paragraph) => {
-                println!("-P");
-                par.items.push(ParagraphItem::Text(std::mem::take(&mut string)));
-                section_items.push(SectionItem::Paragraph(std::mem::take(&mut par)));
+                if pre_head {
+                    doc.items.push(DocItem::Paragraph(std::mem::take(&mut par)));
+                } else {
+                    section_items.push(SectionItem::Paragraph(std::mem::take(&mut par)));
+                }
             },
             Event::Start(Tag::Heading { level, id, classes, attrs }) => {
-                println!("+H");
                 // commit current section
                 pre_sections.push((std::mem::take(&mut head), std::mem::take(&mut section_items)));
                 // set up new heading for new section
@@ -79,20 +68,48 @@ pub fn test() -> Doc {
                 for class in classes {
                     head.tags.insert(class.to_string());
                 }
+                scap = true;
+                pre_head = false;
             },
             Event::End(TagEnd::Heading(_level)) => {
-                println!("-H");
                 head.items.push(HeadingItem::String(std::mem::take(&mut string)));
+                scap = false;
+            },
+            Event::Start(Tag::CodeBlock(CodeBlockKind::Fenced(language))) => {
+                if !language.is_empty(){
+                    code_lang = language.to_string();
+                }
+                scap = true;
+            },
+            Event::End(TagEnd::CodeBlock) => {
+                code_block.language = std::mem::take(&mut code_lang);
+                code_block.code = std::mem::take(&mut string);
+                code_lang.push_str("plain");
+                par.items.push(ParagraphItem::Code(Ok(std::mem::take(&mut code_block))));
+                scap = false;
+            },
+            Event::Code(codet) => {
+                let mut tags = Tags::default();
+                tags.insert("inline-code".to_string());
+                par.items.push(ParagraphItem::MText(TextWithMeta{
+                    text: codet.to_string(),
+                    tags,
+                    ..Default::default()
+                }));
             },
             _ => { },
         }
+    }
+    if !par.items.is_empty() {
+        section_items.push(SectionItem::Paragraph(std::mem::take(&mut par)));
     }
     pre_sections.push((std::mem::take(&mut head), std::mem::take(&mut section_items)));
 
     let mega_section = pre_sections_to_sections(pre_sections);
     let sections = mega_section_to_sections(mega_section);
-
-    println!("{:#?}", sections);
+    for section in sections {
+        doc.items.push(DocItem::Section(section));
+    }
 
     doc
 }
@@ -136,7 +153,7 @@ fn pre_sections_to_sections(mut pres: Vec<(Heading, Vec<SectionItem>)>) -> Secti
     }
 }
 
-pub fn mega_section_to_sections(mega: Section) -> Vec<Section> {
+fn mega_section_to_sections(mega: Section) -> Vec<Section> {
     let mut res = Vec::new();
     for item in mega.items {
         if let SectionItem::Section(mut section) = item {
@@ -147,10 +164,8 @@ pub fn mega_section_to_sections(mega: Section) -> Vec<Section> {
     res
 }
 
-pub fn downgrade_section(section: &mut Section) {
-    if section.heading.level > 0 {
-        section.heading.level -= 1;
-    }
+fn downgrade_section(section: &mut Section) {
+    section.heading.level -= section.heading.level.min(1);
     for item in &mut section.items {
         if let SectionItem::Section(sub_section) = item {
             downgrade_section(sub_section);
