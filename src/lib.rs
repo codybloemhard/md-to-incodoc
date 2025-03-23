@@ -1,23 +1,13 @@
+mod tests;
+
 use pulldown_cmark::{ Parser, Options, Event, Tag, TagEnd, CodeBlockKind };
 use incodoc::*;
 
-const INPUT: &str = "
-# head
-
-This is some `inline code`.
-Now we will end this paragraph.
-
-``` rust
-let x = 0;
-```
-
-test
-";
-
-pub fn test() -> Doc {
+pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut options = Options::empty();
     options.insert(Options::ENABLE_STRIKETHROUGH);
-    let parser = Parser::new_ext(INPUT, options);
+    options.insert(Options::ENABLE_HEADING_ATTRIBUTES);
+    let parser = Parser::new_ext(input, options);
 
     let mut doc = Doc::default();
     let mut string = String::new();
@@ -27,7 +17,7 @@ pub fn test() -> Doc {
     let mut pre_head = true;
     let mut section_items = Vec::new();
     let mut pre_sections = Vec::new();
-    let mut code_lang = "plain".to_string();
+    let mut code_lang = String::new();
     let mut code_block = CodeBlock::default();
 
     for event in parser {
@@ -35,7 +25,6 @@ pub fn test() -> Doc {
         match event {
             Event::Text(text) => {
                 string.push_str(&text);
-                string.push('\n');
                 if !scap {
                     par.items.push(ParagraphItem::Text(std::mem::take(&mut string)));
                 }
@@ -63,6 +52,8 @@ pub fn test() -> Doc {
                 for (attr, attr_val) in attrs {
                     if let Some(val) = attr_val {
                         head.props.insert(attr.to_string(), PropVal::String(val.to_string()));
+                    } else {
+                        head.tags.insert(attr.to_string());
                     }
                 }
                 for class in classes {
@@ -84,7 +75,6 @@ pub fn test() -> Doc {
             Event::End(TagEnd::CodeBlock) => {
                 code_block.language = std::mem::take(&mut code_lang);
                 code_block.code = std::mem::take(&mut string);
-                code_lang.push_str("plain");
                 par.items.push(ParagraphItem::Code(Ok(std::mem::take(&mut code_block))));
                 scap = false;
             },
@@ -106,10 +96,7 @@ pub fn test() -> Doc {
     pre_sections.push((std::mem::take(&mut head), std::mem::take(&mut section_items)));
 
     let mega_section = pre_sections_to_sections(pre_sections);
-    let sections = mega_section_to_sections(mega_section);
-    for section in sections {
-        doc.items.push(DocItem::Section(section));
-    }
+    populate_doc(&mut doc, mega_section);
 
     doc
 }
@@ -153,32 +140,26 @@ fn pre_sections_to_sections(mut pres: Vec<(Heading, Vec<SectionItem>)>) -> Secti
     }
 }
 
-fn mega_section_to_sections(mega: Section) -> Vec<Section> {
-    let mut res = Vec::new();
+fn populate_doc(doc: &mut Doc, mega: Section) {
     for item in mega.items {
-        if let SectionItem::Section(mut section) = item {
-            downgrade_section(&mut section);
-            res.push(section);
+        match item {
+            SectionItem::Section(mut section) => {
+                doc.items.push(DocItem::Section(downgraded_section(section)));
+            }
+            SectionItem::Paragraph(par) => {
+                doc.items.push(DocItem::Paragraph(par));
+            },
         }
     }
-    res
 }
 
-fn downgrade_section(section: &mut Section) {
+fn downgraded_section(mut section: Section) -> Section {
     section.heading.level -= section.heading.level.min(1);
     for item in &mut section.items {
         if let SectionItem::Section(sub_section) = item {
-            downgrade_section(sub_section);
+            *sub_section = downgraded_section(std::mem::take(sub_section));
         }
     }
+    section
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
