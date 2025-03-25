@@ -3,16 +3,22 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-``` rust
-code
-```
+- a
+  - b
+  - b
+    1. c
+    1. c
+       - [x] d
+       - [ ] d
+       - [ ] d
+
 ";
 
 fn main() {
     let doc = parse_md_to_incodoc(INPUT);
-    println!("{:?}", doc);
+    // println!("{:?}", doc);
     let mut output = String::new();
     doc_out(&doc, &mut output);
-    // println!("{output}");
+    println!("{output}");
 }
 
