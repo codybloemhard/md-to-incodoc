@@ -11,14 +11,13 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
 
     let mut scap = false; // string capture: if a tag started that captures a string
     let mut pre_head = true;
+    let mut in_list_item = false;
 
     let mut string = String::new();
     let mut code_lang = String::new();
 
-    let mut par_items = Vec::new();
-    let mut list_items = Vec::new();
-    let mut par_items_stack = Vec::new();
-    let mut list_items_stack = Vec::new();
+    let mut par_stack = Vec::new();
+    let mut list_stack = Vec::new();
     let mut section_items = Vec::new();
     let mut pre_sections = Vec::new();
 
@@ -34,12 +33,11 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             Event::Text(text) => {
                 string.push_str(&text);
                 if !scap {
-                    par_items.push(ParagraphItem::Text(mem::take(&mut string)));
+                    par.items.push(ParagraphItem::Text(mem::take(&mut string)));
                 }
             },
             // Event::Start(Tag::Paragraph) => {},
-            Event::End(TagEnd::Paragraph) => {
-                par.items = mem::take(&mut par_items);
+            Event::End(TagEnd::Paragraph) if !in_list_item => {
                 let par = mem::take(&mut par);
                 if pre_head {
                     doc.items.push(DocItem::Paragraph(par));
@@ -84,42 +82,41 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             Event::End(TagEnd::CodeBlock) => {
                 code_block.language = mem::take(&mut code_lang);
                 code_block.code = mem::take(&mut string);
-                par_items.push(ParagraphItem::Code(Ok(mem::take(&mut code_block))));
+                par.items.push(ParagraphItem::Code(Ok(mem::take(&mut code_block))));
                 scap = false;
             },
             Event::Code(codet) => {
                 let mut tags = Tags::default();
                 tags.insert("inline-code".to_string());
-                par_items.push(ParagraphItem::MText(TextWithMeta{
+                par.items.push(ParagraphItem::MText(TextWithMeta{
                     text: codet.to_string(),
                     tags,
                     ..Default::default()
                 }));
             },
             Event::Start(Tag::List(start_nr)) => {
-                par_items_stack.push(mem::take(&mut par_items));
-                list_items_stack.push(mem::take(&mut list_items));
+                par_stack.push(mem::take(&mut par));
+                list_stack.push(mem::take(&mut list));
             },
             Event::Start(Tag::Item) => {
+                in_list_item = true;
             },
-            Event::TaskListMarker(ticked) => {
-
+            Event::TaskListMarker(true) => {
+                par.tags.insert("ticked".to_string());
             },
             Event::End(TagEnd::Item) => {
-                par.items = mem::take(&mut par_items);
-                list_items.push(mem::take(&mut par));
+                list.items.push(mem::take(&mut par));
+                in_list_item = false;
             },
             Event::End(TagEnd::List(ordered)) => {
                 list.ltype = if ordered { ListType::Distinct } else { ListType::Identical };
-                list.items = mem::take(&mut list_items);
-                par_items = par_items_stack.pop().expect("oof");
-                par_items.push(ParagraphItem::List(mem::take(&mut list)));
-                list_items = list_items_stack.pop().unwrap_or_default();
+                par = par_stack.pop().expect("oof");
+                par.items.push(ParagraphItem::List(mem::take(&mut list)));
+                list = list_stack.pop().unwrap_or_default();
             },
             _ => { },
         }
     }
-    par.items = mem::take(&mut par_items);
     if !par.items.is_empty() {
         section_items.push(SectionItem::Paragraph(mem::take(&mut par)));
     }

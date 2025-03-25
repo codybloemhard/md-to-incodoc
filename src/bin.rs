@@ -12,6 +12,16 @@ const INPUT: &str =
        - [ ] d
        - [ ] d
 
+- [ ] T
+- [x] T
+  - a
+  - a
+- [ ] T
+  - b
+  - b
+- [x] T
+  - c
+  - c
 ";
 
 fn main() {
