@@ -97,19 +97,24 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             Event::Start(Tag::List(start_nr)) => {
                 par_stack.push(mem::take(&mut par));
                 list_stack.push(mem::take(&mut list));
+                if start_nr.is_some() {
+                    list.ltype = ListType::Distinct;
+                }
             },
             Event::Start(Tag::Item) => {
                 in_list_item = true;
             },
-            Event::TaskListMarker(true) => {
-                par.tags.insert("ticked".to_string());
+            Event::TaskListMarker(ticked) => {
+                if ticked {
+                    par.tags.insert("checked".to_string());
+                }
+                list.ltype = ListType::Checked;
             },
             Event::End(TagEnd::Item) => {
                 list.items.push(mem::take(&mut par));
                 in_list_item = false;
             },
-            Event::End(TagEnd::List(ordered)) => {
-                list.ltype = if ordered { ListType::Distinct } else { ListType::Identical };
+            Event::End(TagEnd::List(_)) => {
                 par = par_stack.pop().expect("oof");
                 par.items.push(ParagraphItem::List(mem::take(&mut list)));
                 list = list_stack.pop().unwrap_or_default();

@@ -710,5 +710,490 @@ let x = 0;
             ..Default::default()
         }
     );
+
+    test!(
+        t_list_c0,
+        "
+- aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Identical,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c1,
+        "
+1. aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Distinct,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c2,
+        "
+- [ ] aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Checked,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c3,
+        "
+- [x] aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Checked,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    tags: hset!(["checked"]),
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+    test!(
+        t_list_c4,
+        "
+- aaa
+- aaa
+- aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Identical,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c5,
+        "
+1. aaa
+2. aaa
+3. aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Distinct,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c6,
+        "
+- [x] aaa
+- [ ] aaa
+- [x] aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Checked,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    tags: hset!(["checked"]),
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    tags: hset!(["checked"]),
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c7,
+        "
+- aaa
+  aaa
+- aaa
+  aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Identical,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c8,
+        "
+1. aaa
+   aaa
+2. aaa
+   aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Distinct,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c9,
+        "
+- [ ] aaa
+      aaa
+- [x] aaa
+      aaa
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Checked,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    tags: hset!(["checked"]),
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_list_c10,
+        "
+- aaa
+- aaa
+- aaa
+  1. bbb
+  2. bbb
+     bbb
+  3.
+     - [ ] ccc
+     - [x] ccc
+  4. - ddd
+     - ddd
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List{
+                            ltype: ListType::Identical,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::List(List {
+                                            ltype: ListType::Distinct,
+                                            items: vec![
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::Text("bbb".to_string()),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::Text("bbb".to_string()),
+                                                        ParagraphItem::Text("bbb".to_string()),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::List(List {
+                                                            ltype: ListType::Checked,
+                                                            items: vec![
+                                                                Paragraph {
+                                                                    items: vec![
+                                                                        ParagraphItem::Text("ccc".to_string()),
+                                                                    ],
+                                                                    ..Default::default()
+                                                                },
+                                                                Paragraph {
+                                                                    items: vec![
+                                                                        ParagraphItem::Text("ccc".to_string()),
+                                                                    ],
+                                                                    tags: hset!(["checked"]),
+                                                                    ..Default::default()
+                                                                },
+                                                            ],
+                                                            ..Default::default()
+                                                        }),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::List(List {
+                                                            ltype: ListType::Identical,
+                                                            items: vec![
+                                                                Paragraph {
+                                                                    items: vec![
+                                                                        ParagraphItem::Text("ddd".to_string()),
+                                                                    ],
+                                                                    ..Default::default()
+                                                                },
+                                                                Paragraph {
+                                                                    items: vec![
+                                                                        ParagraphItem::Text("ddd".to_string()),
+                                                                    ],
+                                                                    ..Default::default()
+                                                                },
+                                                            ],
+                                                            ..Default::default()
+                                                        }),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
 }
 

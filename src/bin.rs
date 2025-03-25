@@ -3,25 +3,17 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-- a
-  - b
-  - b
-    1. c
-    1. c
-       - [x] d
-       - [ ] d
-       - [ ] d
-
-- [ ] T
-- [x] T
-  - a
-  - a
-- [ ] T
-  - b
-  - b
-- [x] T
-  - c
-  - c
+- aaa
+- aaa
+- aaa
+  1. bbb
+  2. bbb
+     bbb
+  3.
+     - [ ] ccc
+     - [x] ccc
+  4. - ddd
+     - ddd
 ";
 
 fn main() {
