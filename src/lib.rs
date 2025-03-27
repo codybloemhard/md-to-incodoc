@@ -12,6 +12,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut scap = false; // string capture: if a tag started that captures a string
     let mut pre_head = true;
     let mut in_list_item = false;
+    let mut em_lvl = 0;
 
     let mut string = String::new();
     let mut code_lang = String::new();
@@ -36,6 +37,9 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                     par.items.push(ParagraphItem::Text(mem::take(&mut string)));
                 }
             },
+            // Event::SoftBreak => {
+            //     string.push('\n');
+            // },
             // Event::Start(Tag::Paragraph) => {},
             Event::End(TagEnd::Paragraph) if !in_list_item => {
                 let par = mem::take(&mut par);
@@ -118,6 +122,84 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 par = par_stack.pop().expect("oof");
                 par.items.push(ParagraphItem::List(mem::take(&mut list)));
                 list = list_stack.pop().unwrap_or_default();
+            },
+            Event::Start(Tag::Emphasis) => {
+                if !string.is_empty() {
+                    par.items.push(ParagraphItem::Text(mem::take(&mut string)));
+                }
+                scap = true;
+                em_lvl += 1;
+            },
+            Event::Start(Tag::Strong) => {
+                if !string.is_empty() {
+                    let text = mem::take(&mut string);
+                    if em_lvl == 1 {
+                        par.items.push(ParagraphItem::Em(Emphasis {
+                            strength: EmStrength::Light,
+                            etype: EmType::Emphasis,
+                            text,
+                            ..Default::default()
+                        }));
+                    } else {
+                        par.items.push(ParagraphItem::Text(text));
+                    }
+                }
+                scap = true;
+                em_lvl += 2;
+            },
+            Event::Start(Tag::Strikethrough) => {
+                if !string.is_empty() {
+                    par.items.push(ParagraphItem::Text(mem::take(&mut string)));
+                }
+                scap = true;
+                em_lvl = -1;
+            },
+            Event::End(TagEnd::Strong) => {
+                if em_lvl >= 2 && !string.is_empty() {
+                    let strength = match em_lvl {
+                        2 => EmStrength::Medium,
+                        _ => EmStrength::Strong,
+                    };
+                    par.items.push(ParagraphItem::Em(Emphasis {
+                        strength,
+                        etype: EmType::Emphasis,
+                        text: mem::take(&mut string),
+                        ..Default::default()
+                    }));
+                    em_lvl -= 2;
+                    if em_lvl == 0 {
+                        scap = false;
+                    }
+                }
+            }
+            Event::End(TagEnd::Emphasis) => {
+                let strength = match em_lvl {
+                    2 => EmStrength::Medium,
+                    3 => EmStrength::Strong,
+                    _ => EmStrength::Light,
+                };
+                if !string.is_empty() {
+                    par.items.push(ParagraphItem::Em(Emphasis {
+                        strength,
+                        etype: EmType::Emphasis,
+                        text: mem::take(&mut string),
+                        ..Default::default()
+                    }));
+                }
+                em_lvl = 0;
+                scap = false;
+            },
+            Event::End(TagEnd::Strikethrough) => {
+                if !string.is_empty() {
+                    par.items.push(ParagraphItem::Em(Emphasis {
+                        strength: EmStrength::Medium,
+                        etype: EmType::Deemphasis,
+                        text: mem::take(&mut string),
+                        ..Default::default()
+                    }));
+                }
+                em_lvl += 1;
+                scap = false;
             },
             _ => { },
         }
