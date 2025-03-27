@@ -13,10 +13,15 @@ converted:
   - ordered -> distinct
   - checked -> checked
 - code and codeblock -> codeblock
+- emphasis
+  - *emphasis* => light emphasis
+  - **strong** => medium emphasis
+  - ***emphasis strong*** => strong emphasis
+  - ~strikethrough~ => medium deemphasis
+- soft and hard breaks => soft break
 
 todo:
 
-- emphasis
 - super/sub script
 - link
 - image (as link)
@@ -24,7 +29,6 @@ todo:
   - convention for nav as metadata
 - math
 - html (ignore)
-- soft and hard break (ignore)
 - rule (ignore)
 
 not yet supported in incodoc:

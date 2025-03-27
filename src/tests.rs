@@ -58,7 +58,7 @@ par par par
             items: vec![DocItem::Paragraph(Paragraph {
                 items: vec![
                     ParagraphItem::Text("par par par".to_string()),
-                    ParagraphItem::Text("par par par".to_string()),
+                    ParagraphItem::Text("\npar par par".to_string()),
                 ],
                 ..Default::default()
             })],
@@ -106,14 +106,14 @@ par par par
                 DocItem::Paragraph(Paragraph {
                     items: vec![
                         ParagraphItem::Text("par par par".to_string()),
-                        ParagraphItem::Text("par par par".to_string()),
+                        ParagraphItem::Text("\npar par par".to_string()),
                     ],
                     ..Default::default()
                 }),
                 DocItem::Paragraph(Paragraph {
                     items: vec![
                         ParagraphItem::Text("par par par".to_string()),
-                        ParagraphItem::Text("par par par".to_string()),
+                        ParagraphItem::Text("\npar par par".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -976,14 +976,14 @@ let x = 0;
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("\naaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("\naaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
@@ -1016,14 +1016,14 @@ let x = 0;
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("\naaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("\naaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
@@ -1056,14 +1056,14 @@ let x = 0;
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("\naaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("aaa".to_string()),
+                                        ParagraphItem::Text("\naaa".to_string()),
                                     ],
                                     tags: hset!(["checked"]),
                                     ..Default::default()
@@ -1128,7 +1128,7 @@ let x = 0;
                                                 Paragraph {
                                                     items: vec![
                                                         ParagraphItem::Text("bbb".to_string()),
-                                                        ParagraphItem::Text("bbb".to_string()),
+                                                        ParagraphItem::Text("\nbbb".to_string()),
                                                     ],
                                                     ..Default::default()
                                                 },
