@@ -3,15 +3,8 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-This is a ***test** test*.
-This is a *test **test***.
-*a*
-**b**
-***c***
-*A**B**A**B**A*
-*A*B*A*
-pre ~~strike~~ post
-***A~~strike~~B***
+**in strong *emph***
+***emph* in strong**
 ";
 
 fn main() {

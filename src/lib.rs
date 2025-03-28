@@ -125,7 +125,17 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             },
             Event::Start(Tag::Emphasis) => {
                 if !string.is_empty() {
-                    par.items.push(ParagraphItem::Text(mem::take(&mut string)));
+                    let text = mem::take(&mut string);
+                    if em_lvl == 2 {
+                        par.items.push(ParagraphItem::Em(Emphasis {
+                            strength: EmStrength::Medium,
+                            etype: EmType::Emphasis,
+                            text,
+                            ..Default::default()
+                        }));
+                    } else {
+                        par.items.push(ParagraphItem::Text(mem::take(&mut string)));
+                    }
                 }
                 scap = true;
                 em_lvl += 1;
@@ -166,10 +176,10 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                         text: mem::take(&mut string),
                         ..Default::default()
                     }));
-                    em_lvl -= 2;
-                    if em_lvl == 0 {
-                        scap = false;
-                    }
+                }
+                em_lvl -= 2;
+                if em_lvl == 0 {
+                    scap = false;
                 }
             }
             Event::End(TagEnd::Emphasis) => {
@@ -186,8 +196,10 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                         ..Default::default()
                     }));
                 }
-                em_lvl = 0;
-                scap = false;
+                em_lvl -= 1;
+                if em_lvl == 0 {
+                    scap = false;
+                }
             },
             Event::End(TagEnd::Strikethrough) => {
                 if !string.is_empty() {
