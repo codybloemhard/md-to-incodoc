@@ -38,7 +38,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                     par.items.push(ParagraphItem::Text(mem::take(&mut string)));
                 }
             },
-            Event::SoftBreak | Event::HardBreak => {
+            Event::SoftBreak | Event::HardBreak | Event::Rule => {
                 string.push('\n');
             },
             // Event::Start(Tag::Paragraph) => {},

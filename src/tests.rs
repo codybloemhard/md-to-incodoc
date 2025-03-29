@@ -1829,5 +1829,61 @@ pre **a *~sub~* b** post
             ..Default::default()
         }
     );
+
+    test!(
+        t_rule_c0,
+        "
+pre
+
+---
+
+post
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("pre".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("\npost".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_rule_c1,
+        "
+pre
+
+***
+
+post
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("pre".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("\npost".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
 }
 

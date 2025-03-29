@@ -18,7 +18,7 @@ converted:
   - **strong** -> medium emphasis
   - ***emphasis strong*** -> strong emphasis
   - ~strikethrough~ -> medium deemphasis
-- soft and hard breaks -> soft break
+- soft/hard breaks and rule -> soft break
 - super/sub script -> text/emphasis with tags "super" and "sub"
 
 todo:
@@ -28,8 +28,7 @@ todo:
 - metadata block
   - convention for nav as metadata
 - math
-- html (ignore)
-- rule (ignore)
+- html (ignore or codeblock?)
 
 not yet supported in incodoc:
 
