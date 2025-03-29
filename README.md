@@ -19,10 +19,10 @@ converted:
   - ***emphasis strong*** -> strong emphasis
   - ~strikethrough~ -> medium deemphasis
 - soft and hard breaks -> soft break
+- super/sub script -> text/emphasis with tags "super" and "sub"
 
 todo:
 
-- super/sub script
 - link
 - image (as link)
 - metadata block

@@ -3,7 +3,7 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-*^super^*
+pre ~~^super^~~ post
 ";
 
 fn main() {

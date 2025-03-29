@@ -1206,7 +1206,6 @@ let x = 0;
                 items: vec![
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
@@ -1227,7 +1226,6 @@ let x = 0;
                 items: vec![
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Medium,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
@@ -1248,7 +1246,6 @@ let x = 0;
                 items: vec![
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
@@ -1291,21 +1288,18 @@ pre *a* int **a** int ***a*** int ~~a~~ post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" int ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Medium,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" int ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
@@ -1335,31 +1329,26 @@ pre *a **b** a **b** a* post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: "a ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "b".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: " a ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "b".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: " a".to_string(),
                         ..Default::default()
                     }),
@@ -1382,31 +1371,26 @@ pre ***a** b **a** b **a*** post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: " b ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: " b ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
@@ -1429,31 +1413,26 @@ pre **a *b* a *b* a** post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Medium,
-                        etype: EmType::Emphasis,
                         text: "a ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "b".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Medium,
-                        etype: EmType::Emphasis,
                         text: " a ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "b".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Medium,
-                        etype: EmType::Emphasis,
                         text: " a".to_string(),
                         ..Default::default()
                     }),
@@ -1476,31 +1455,26 @@ pre ***a* b *a* b *a*** post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Medium,
-                        etype: EmType::Emphasis,
                         text: " b ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Medium,
-                        etype: EmType::Emphasis,
                         text: " b ".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Strong,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
@@ -1523,22 +1497,329 @@ pre *a*b*a*b*a* post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Text("b".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Text("b".to_string()),
                     ParagraphItem::Em(Emphasis {
                         strength: EmStrength::Light,
-                        etype: EmType::Emphasis,
                         text: "a".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_supersub_c0,
+        "
+pre ^super^ post
+pre ~sub~ post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::MText(TextWithMeta{
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::MText(TextWithMeta{
+                        text: "sub".to_string(),
+                        tags: hset!(["sub"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_supersub_c1,
+        "
+pre *^super^* post
+pre *~sub~* post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: "sub".to_string(),
+                        tags: hset!(["sub"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_supersub_c2,
+        "
+pre **^super^** post
+pre **~sub~** post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: "sub".to_string(),
+                        tags: hset!(["sub"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_supersub_c3,
+        "
+pre ***^super^*** post
+pre ***~sub~*** post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Strong,
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Strong,
+                        text: "sub".to_string(),
+                        tags: hset!(["sub"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    // pulldown-cmark doesn't generate the right events or combining strikethrough and subscript
+    // could be supported if it did
+    test!(
+        t_supersub_c4,
+        "
+pre ~~^super^~~ post
+pre ~~~sub~~~ post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        etype: EmType::Deemphasis,
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ~~~sub~~~ post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_supersub_c5,
+        "
+pre *a *^super^* b* post
+pre *a *~sub~* b* post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: "a ".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: " b".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: "a ".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: "sub".to_string(),
+                        tags: hset!(["sub"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: " b".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_supersub_c6,
+        "
+pre *a **^super^** b* post
+pre *a **~sub~** b* post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: "a ".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Strong,
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: " b".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: "a ".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Strong,
+                        text: "sub".to_string(),
+                        tags: hset!(["sub"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Light,
+                        text: " b".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_supersub_c7,
+        "
+pre **a *^super^* b** post
+pre **a *~sub~* b** post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: "a ".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Strong,
+                        text: "super".to_string(),
+                        tags: hset!(["super"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: " b".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: "a ".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Strong,
+                        text: "sub".to_string(),
+                        tags: hset!(["sub"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Em(Emphasis{
+                        strength: EmStrength::Medium,
+                        text: " b".to_string(),
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),

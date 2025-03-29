@@ -13,6 +13,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut pre_head = true;
     let mut in_list_item = false;
     let mut em_lvl = 0;
+    let mut sc_lvl = 0;
 
     let mut string = String::new();
     let mut code_lang = String::new();
@@ -28,28 +29,12 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut list = List::default();
     let mut doc = Doc::default();
 
-    fn finish_text_piece(em_lvl: i32, string: &mut String, is: &mut Vec<ParagraphItem>) {
-        if string.is_empty() { return; }
-        let text = mem::take(string);
-        if em_lvl == 0 {
-            is.push(ParagraphItem::Text(text));
-            return;
-        }
-        let (strength, etype) = match em_lvl {
-            2  => (EmStrength::Medium, EmType::Emphasis),
-            3  => (EmStrength::Strong, EmType::Emphasis),
-            -1 => (EmStrength::Medium, EmType::Deemphasis),
-            _  => (EmStrength::Light, EmType::Emphasis),
-        };
-        is.push(ParagraphItem::Em(Emphasis { strength, etype, text, ..Default::default() }));
-    }
-
     for event in parser {
         println!("{:?}", event);
         match event {
             Event::Text(text) => {
                 string.push_str(&text);
-                if !scap && em_lvl == 0 {
+                if !scap && em_lvl == 0 && sc_lvl == 0 {
                     par.items.push(ParagraphItem::Text(mem::take(&mut string)));
                 }
             },
@@ -140,28 +125,44 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 list = list_stack.pop().unwrap_or_default();
             },
             Event::Start(Tag::Emphasis) => {
-                finish_text_piece(em_lvl, &mut string, &mut par.items);
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
                 em_lvl += 1;
             },
             Event::Start(Tag::Strong) => {
-                finish_text_piece(em_lvl, &mut string, &mut par.items);
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
                 em_lvl += 2;
             },
             Event::Start(Tag::Strikethrough) => {
-                finish_text_piece(em_lvl, &mut string, &mut par.items);
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
                 em_lvl = -1;
             },
+            Event::Start(Tag::Superscript) => {
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                sc_lvl = 1;
+            },
+            Event::Start(Tag::Subscript) => {
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                sc_lvl = -1;
+            },
             Event::End(TagEnd::Strong) => {
-                finish_text_piece(em_lvl, &mut string, &mut par.items);
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
                 em_lvl -= 2;
             }
             Event::End(TagEnd::Emphasis) => {
-                finish_text_piece(em_lvl, &mut string, &mut par.items);
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
                 em_lvl -= 1;
             },
             Event::End(TagEnd::Strikethrough) => {
-                finish_text_piece(em_lvl, &mut string, &mut par.items);
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
                 em_lvl += 1;
+            },
+            Event::End(TagEnd::Superscript) => {
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                sc_lvl = 0;
+            },
+            Event::End(TagEnd::Subscript) => {
+                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                sc_lvl = 0;
             },
             _ => { },
         }
@@ -176,6 +177,33 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
 
     doc
 }
+
+fn finish_text_piece(em_lvl: i32, sc_lvl: i32, string: &mut String, is: &mut Vec<ParagraphItem>) {
+    if string.is_empty() { return; }
+    let text = mem::take(string);
+    if em_lvl == 0 && sc_lvl == 0 {
+        is.push(ParagraphItem::Text(text));
+        return;
+    }
+    let (strength, etype) = match em_lvl {
+        2  => (EmStrength::Medium, EmType::Emphasis),
+        3  => (EmStrength::Strong, EmType::Emphasis),
+        -1 => (EmStrength::Medium, EmType::Deemphasis),
+        _  => (EmStrength::Light, EmType::Emphasis),
+    };
+    let mut tags = Tags::default();
+    if sc_lvl == 1 {
+        tags.insert("super".to_string());
+    } else if sc_lvl == -1 {
+        tags.insert("sub".to_string());
+    }
+    if em_lvl == 0 {
+        is.push(ParagraphItem::MText(TextWithMeta{ text, tags, ..Default::default() }));
+    } else {
+        is.push(ParagraphItem::Em(Emphasis { strength, etype, text, tags, ..Default::default() }));
+    }
+}
+
 
 fn pre_sections_to_sections(mut pres: Vec<(Heading, Vec<SectionItem>)>) -> Section {
     if pres.is_empty() {
