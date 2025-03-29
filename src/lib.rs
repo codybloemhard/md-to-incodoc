@@ -28,12 +28,28 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut list = List::default();
     let mut doc = Doc::default();
 
+    fn finish_text_piece(em_lvl: i32, string: &mut String, is: &mut Vec<ParagraphItem>) {
+        if string.is_empty() { return; }
+        let text = mem::take(string);
+        if em_lvl == 0 {
+            is.push(ParagraphItem::Text(text));
+            return;
+        }
+        let (strength, etype) = match em_lvl {
+            2  => (EmStrength::Medium, EmType::Emphasis),
+            3  => (EmStrength::Strong, EmType::Emphasis),
+            -1 => (EmStrength::Medium, EmType::Deemphasis),
+            _  => (EmStrength::Light, EmType::Emphasis),
+        };
+        is.push(ParagraphItem::Em(Emphasis { strength, etype, text, ..Default::default() }));
+    }
+
     for event in parser {
         println!("{:?}", event);
         match event {
             Event::Text(text) => {
                 string.push_str(&text);
-                if !scap {
+                if !scap && em_lvl == 0 {
                     par.items.push(ParagraphItem::Text(mem::take(&mut string)));
                 }
             },
@@ -124,94 +140,28 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 list = list_stack.pop().unwrap_or_default();
             },
             Event::Start(Tag::Emphasis) => {
-                if !string.is_empty() {
-                    let text = mem::take(&mut string);
-                    if em_lvl == 2 {
-                        par.items.push(ParagraphItem::Em(Emphasis {
-                            strength: EmStrength::Medium,
-                            etype: EmType::Emphasis,
-                            text,
-                            ..Default::default()
-                        }));
-                    } else {
-                        par.items.push(ParagraphItem::Text(mem::take(&mut string)));
-                    }
-                }
-                scap = true;
+                finish_text_piece(em_lvl, &mut string, &mut par.items);
                 em_lvl += 1;
             },
             Event::Start(Tag::Strong) => {
-                if !string.is_empty() {
-                    let text = mem::take(&mut string);
-                    if em_lvl == 1 {
-                        par.items.push(ParagraphItem::Em(Emphasis {
-                            strength: EmStrength::Light,
-                            etype: EmType::Emphasis,
-                            text,
-                            ..Default::default()
-                        }));
-                    } else {
-                        par.items.push(ParagraphItem::Text(text));
-                    }
-                }
-                scap = true;
+                finish_text_piece(em_lvl, &mut string, &mut par.items);
                 em_lvl += 2;
             },
             Event::Start(Tag::Strikethrough) => {
-                if !string.is_empty() {
-                    par.items.push(ParagraphItem::Text(mem::take(&mut string)));
-                }
-                scap = true;
+                finish_text_piece(em_lvl, &mut string, &mut par.items);
                 em_lvl = -1;
             },
             Event::End(TagEnd::Strong) => {
-                if em_lvl >= 2 && !string.is_empty() {
-                    let strength = match em_lvl {
-                        2 => EmStrength::Medium,
-                        _ => EmStrength::Strong,
-                    };
-                    par.items.push(ParagraphItem::Em(Emphasis {
-                        strength,
-                        etype: EmType::Emphasis,
-                        text: mem::take(&mut string),
-                        ..Default::default()
-                    }));
-                }
+                finish_text_piece(em_lvl, &mut string, &mut par.items);
                 em_lvl -= 2;
-                if em_lvl == 0 {
-                    scap = false;
-                }
             }
             Event::End(TagEnd::Emphasis) => {
-                let strength = match em_lvl {
-                    2 => EmStrength::Medium,
-                    3 => EmStrength::Strong,
-                    _ => EmStrength::Light,
-                };
-                if !string.is_empty() {
-                    par.items.push(ParagraphItem::Em(Emphasis {
-                        strength,
-                        etype: EmType::Emphasis,
-                        text: mem::take(&mut string),
-                        ..Default::default()
-                    }));
-                }
+                finish_text_piece(em_lvl, &mut string, &mut par.items);
                 em_lvl -= 1;
-                if em_lvl == 0 {
-                    scap = false;
-                }
             },
             Event::End(TagEnd::Strikethrough) => {
-                if !string.is_empty() {
-                    par.items.push(ParagraphItem::Em(Emphasis {
-                        strength: EmStrength::Medium,
-                        etype: EmType::Deemphasis,
-                        text: mem::take(&mut string),
-                        ..Default::default()
-                    }));
-                }
+                finish_text_piece(em_lvl, &mut string, &mut par.items);
                 em_lvl += 1;
-                scap = false;
             },
             _ => { },
         }

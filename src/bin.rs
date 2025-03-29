@@ -3,8 +3,7 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-**in strong *emph***
-***emph* in strong**
+*^super^*
 ";
 
 fn main() {
