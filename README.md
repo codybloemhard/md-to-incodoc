@@ -20,10 +20,10 @@ converted:
   - ~strikethrough~ -> medium deemphasis
 - soft/hard breaks and rule -> soft break
 - super/sub script -> text/emphasis with tags "super" and "sub"
+- link -> link, corporeal link types discarded
 
 todo:
 
-- link
 - image (as link)
 - metadata block
   - convention for nav as metadata

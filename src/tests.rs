@@ -1885,5 +1885,251 @@ post
             ..Default::default()
         }
     );
+
+    test!(
+        t_link_c0,
+        "
+pre [link *em*](url 'title') post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("link ".to_string()),
+                            LinkItem::Em(Emphasis {
+                                text: "em".to_string(),
+                                ..Default::default()
+                            }),
+                        ],
+                        url: "url".to_string(),
+                        props: props!([("title".to_string(), PropVal::String("title".to_string()))]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c1,
+        "
+pre <https://url> post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("https://url".to_string()),
+                        ],
+                        url: "https://url".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c2,
+        "
+pre <a@b.c> post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("a@b.c".to_string()),
+                        ],
+                        url: "a@b.c".to_string(),
+                        tags: hset!(["email-address".to_string()]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c3,
+        "
+pre [[url]] post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("url".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c4,
+        "
+pre [[url|link]] post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("link".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c5,
+        "
+pre [link][ref] post
+
+[ref]: url 'title'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("link".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        props: props!([
+                            ("title".to_string(), PropVal::String("title".to_string())),
+                            ("link-ref".to_string(), PropVal::String("ref".to_string())),
+                        ]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c6,
+        "
+pre [ref][] post
+
+[ref]: url 'title'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("ref".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        props: props!([
+                            ("title".to_string(), PropVal::String("title".to_string())),
+                            ("link-ref".to_string(), PropVal::String("ref".to_string())),
+                        ]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c7,
+        "
+pre [ref] post
+
+[ref]: url 'title'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("ref".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        props: props!([
+                            ("title".to_string(), PropVal::String("title".to_string())),
+                            ("link-ref".to_string(), PropVal::String("ref".to_string())),
+                        ]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_link_c8,
+        "
+pre [ref] post
+
+[ref]: url 'title'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("ref".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        props: props!([
+                            ("title".to_string(), PropVal::String("title".to_string())),
+                            ("link-ref".to_string(), PropVal::String("ref".to_string())),
+                        ]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
 }
 

@@ -3,13 +3,14 @@ mod tests;
 use std::mem;
 
 use incodoc::*;
-use pulldown_cmark::{ Parser, Options, Event, Tag, TagEnd, CodeBlockKind };
+use pulldown_cmark::{ Parser, Options, Event, Tag, TagEnd, CodeBlockKind, LinkType };
 
 pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let options = Options::all();
     let parser = Parser::new_ext(input, options);
 
     let mut scap = false; // string capture: if a tag started that captures a string
+    let mut lcap = false; // link capture: capture em and text for links
     let mut pre_head = true;
     let mut in_list_item = false;
     let mut em_lvl = 0;
@@ -27,6 +28,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut head = Heading::default();
     let mut code_block = CodeBlock::default();
     let mut list = List::default();
+    let mut link = Link::default();
     let mut doc = Doc::default();
 
     for event in parser {
@@ -34,7 +36,9 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
         match event {
             Event::Text(text) => {
                 string.push_str(&text);
-                if !scap && em_lvl == 0 && sc_lvl == 0 {
+                if lcap && em_lvl == 0 && sc_lvl == 0 {
+                    link.items.push(LinkItem::String(mem::take(&mut string)));
+                } else if !scap && em_lvl == 0 && sc_lvl == 0 {
                     par.items.push(ParagraphItem::Text(mem::take(&mut string)));
                 }
             },
@@ -42,7 +46,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 string.push('\n');
             },
             // Event::Start(Tag::Paragraph) => {},
-            Event::End(TagEnd::Paragraph) if !in_list_item => {
+            Event::End(TagEnd::Paragraph) if !in_list_item & !par.items.is_empty() => {
                 let par = mem::take(&mut par);
                 if pre_head {
                     doc.items.push(DocItem::Paragraph(par));
@@ -125,44 +129,81 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 list = list_stack.pop().unwrap_or_default();
             },
             Event::Start(Tag::Emphasis) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 em_lvl += 1;
             },
             Event::Start(Tag::Strong) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 em_lvl += 2;
             },
             Event::Start(Tag::Strikethrough) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 em_lvl = -1;
             },
             Event::Start(Tag::Superscript) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 sc_lvl = 1;
             },
             Event::Start(Tag::Subscript) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 sc_lvl = -1;
             },
             Event::End(TagEnd::Strong) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 em_lvl -= 2;
             }
             Event::End(TagEnd::Emphasis) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 em_lvl -= 1;
             },
             Event::End(TagEnd::Strikethrough) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 em_lvl += 1;
             },
             Event::End(TagEnd::Superscript) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 sc_lvl = 0;
             },
             Event::End(TagEnd::Subscript) => {
-                finish_text_piece(em_lvl, sc_lvl, &mut string, &mut par.items);
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
                 sc_lvl = 0;
+            },
+            Event::Start(Tag::Link{ link_type, dest_url, title, id }) => {
+                link.url = dest_url.to_string();
+                if !id.is_empty() {
+                    link.props.insert("link-ref".to_string(), PropVal::String(id.to_string()));
+                }
+                if !title.is_empty() {
+                    link.props.insert("title".to_string(), PropVal::String(title.to_string()));
+                }
+                if link_type == LinkType::Email {
+                    link.tags.insert("email-address".to_string());
+                }
+                lcap = true;
+            },
+            Event::End(TagEnd::Link) => {
+                par.items.push(ParagraphItem::Link(mem::take(&mut link)));
+                lcap = false;
             },
             _ => { },
         }
@@ -178,11 +219,18 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     doc
 }
 
-fn finish_text_piece(em_lvl: i32, sc_lvl: i32, string: &mut String, is: &mut Vec<ParagraphItem>) {
+fn finish_text_piece(
+    em_lvl: i32, sc_lvl: i32, lcap: bool,
+    string: &mut String, pis: &mut Vec<ParagraphItem>, lis: &mut Vec<LinkItem>,
+) {
     if string.is_empty() { return; }
     let text = mem::take(string);
     if em_lvl == 0 && sc_lvl == 0 {
-        is.push(ParagraphItem::Text(text));
+        if lcap {
+            lis.push(LinkItem::String(text));
+        } else {
+            pis.push(ParagraphItem::Text(text));
+        }
         return;
     }
     let (strength, etype) = match em_lvl {
@@ -198,9 +246,18 @@ fn finish_text_piece(em_lvl: i32, sc_lvl: i32, string: &mut String, is: &mut Vec
         tags.insert("sub".to_string());
     }
     if em_lvl == 0 {
-        is.push(ParagraphItem::MText(TextWithMeta{ text, tags, ..Default::default() }));
+        if lcap {
+            lis.push(LinkItem::String(text));
+        } else {
+            pis.push(ParagraphItem::MText(TextWithMeta{ text, tags, ..Default::default() }));
+        }
     } else {
-        is.push(ParagraphItem::Em(Emphasis { strength, etype, text, tags, ..Default::default() }));
+        let em = Emphasis { strength, etype, text, tags, ..Default::default() };
+        if lcap {
+            lis.push(LinkItem::Em(em));
+        } else {
+            pis.push(ParagraphItem::Em(em));
+        }
     }
 }
 
