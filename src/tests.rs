@@ -2103,9 +2103,119 @@ pre [ref] post
     );
 
     test!(
-        t_link_c8,
+        t_image_c0,
         "
-pre [ref] post
+pre ![image *em*](url 'title') post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("image ".to_string()),
+                            LinkItem::Em(Emphasis {
+                                text: "em".to_string(),
+                                ..Default::default()
+                            }),
+                        ],
+                        url: "url".to_string(),
+                        tags: hset!(["image"]),
+                        props: props!([("title".to_string(), PropVal::String("title".to_string()))]),
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_image_c1,
+        "
+pre ![[url]] post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("url".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        tags: hset!(["image"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_image_c2,
+        "
+pre ![[url|image]] post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("image".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        tags: hset!(["image"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_image_c3,
+        "
+pre ![image][ref] post
+
+[ref]: url 'title'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("image".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        tags: hset!(["image"]),
+                        props: props!([
+                            ("title".to_string(), PropVal::String("title".to_string())),
+                            ("link-ref".to_string(), PropVal::String("ref".to_string())),
+                        ]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_image_c4,
+        "
+pre ![ref][] post
 
 [ref]: url 'title'
         ",
@@ -2118,6 +2228,38 @@ pre [ref] post
                             LinkItem::String("ref".to_string()),
                         ],
                         url: "url".to_string(),
+                        tags: hset!(["image"]),
+                        props: props!([
+                            ("title".to_string(), PropVal::String("title".to_string())),
+                            ("link-ref".to_string(), PropVal::String("ref".to_string())),
+                        ]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_image_c5,
+        "
+pre ![ref] post
+
+[ref]: url 'title'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("ref".to_string()),
+                        ],
+                        url: "url".to_string(),
+                        tags: hset!(["image"]),
                         props: props!([
                             ("title".to_string(), PropVal::String("title".to_string())),
                             ("link-ref".to_string(), PropVal::String("ref".to_string())),

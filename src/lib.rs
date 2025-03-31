@@ -188,7 +188,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 );
                 sc_lvl = 0;
             },
-            Event::Start(Tag::Link{ link_type, dest_url, title, id }) => {
+            Event::Start(Tag::Link { link_type, dest_url, title, id }) => {
                 link.url = dest_url.to_string();
                 if !id.is_empty() {
                     link.props.insert("link-ref".to_string(), PropVal::String(id.to_string()));
@@ -202,6 +202,24 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 lcap = true;
             },
             Event::End(TagEnd::Link) => {
+                par.items.push(ParagraphItem::Link(mem::take(&mut link)));
+                lcap = false;
+            },
+            Event::Start(Tag::Image { link_type, dest_url, title, id }) => {
+                link.url = dest_url.to_string();
+                if !id.is_empty() {
+                    link.props.insert("link-ref".to_string(), PropVal::String(id.to_string()));
+                }
+                if !title.is_empty() {
+                    link.props.insert("title".to_string(), PropVal::String(title.to_string()));
+                }
+                if link_type == LinkType::Email {
+                    link.tags.insert("email-address".to_string());
+                }
+                link.tags.insert("image".to_string());
+                lcap = true;
+            },
+            Event::End(TagEnd::Image) => {
                 par.items.push(ParagraphItem::Link(mem::take(&mut link)));
                 lcap = false;
             },
