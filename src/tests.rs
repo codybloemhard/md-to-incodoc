@@ -619,7 +619,7 @@ par
                     items: vec![
                         ParagraphItem::MText(TextWithMeta {
                             text: "code".to_string(),
-                            tags: hset!(["inline-code"]),
+                            tags: hset!(["code"]),
                             ..Default::default()
                         }),
                     ],
@@ -642,7 +642,7 @@ text `code` text
                         ParagraphItem::Text("text ".to_string()),
                         ParagraphItem::MText(TextWithMeta {
                             text: "code".to_string(),
-                            tags: hset!(["inline-code"]),
+                            tags: hset!(["code"]),
                             ..Default::default()
                         }),
                         ParagraphItem::Text(" text".to_string()),
@@ -2326,6 +2326,81 @@ pre <p><a>a</a><a>b</a></p> post
                         tags: hset!(["unconv-corp"]),
                         ..Default::default()
                     })),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_math_c0,
+        "
+pre $inline math$ post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::MText(TextWithMeta{
+                        text: "inline math".to_string(),
+                        tags: hset!(["latex-math"]),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_math_c1,
+        "
+pre $$inline math$$ post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Code(Ok(CodeBlock {
+                        language: "latex-math".to_string(),
+                        code: "inline math".to_string(),
+                        mode: CodeModeHint::Replace,
+                        ..Default::default()
+                    })),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_math_c2,
+        "
+pre
+$$
+    inline math
+$$
+post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre".to_string()),
+                    ParagraphItem::Code(Ok(CodeBlock {
+                        language: "latex-math".to_string(),
+                        code:
+"
+    inline math
+".to_string(),
+                        mode: CodeModeHint::Replace,
+                        ..Default::default()
+                    })),
+                    ParagraphItem::Text("\n\npost".to_string()),
                 ],
                 ..Default::default()
             })],

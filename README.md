@@ -12,7 +12,9 @@ converted:
   - unordered -> identical
   - ordered -> distinct
   - checked -> checked
-- code and codeblock -> codeblock
+- code
+  - inline -> text tagged "code"
+  - block -> codeblock
 - emphasis
   - *emphasis* -> light emphasis
   - **strong** -> medium emphasis
@@ -25,12 +27,14 @@ converted:
 - html
   - html block -> code block tagged "unconv-corp" (unconverted corporeal content)
   - inline html -> inside "html()" enclosure, text with html tags stripped
+- math
+  - inline -> text tagged "latex-math"
+  - display -> code block with language set "latex-math" and mode set "replace"
 
 todo:
 
 - metadata block
   - convention for nav as metadata
-- math
 
 not yet supported in incodoc:
 

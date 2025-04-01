@@ -97,8 +97,8 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             },
             Event::Code(codet) => {
                 let mut tags = Tags::default();
-                tags.insert("inline-code".to_string());
-                par.items.push(ParagraphItem::MText(TextWithMeta{
+                tags.insert("code".to_string());
+                par.items.push(ParagraphItem::MText(TextWithMeta {
                     text: codet.to_string(),
                     tags,
                     ..Default::default()
@@ -255,6 +255,21 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                     };
                     par.items.push(ParagraphItem::Em(em));
                 }
+            },
+            Event::InlineMath(math) => {
+                let mut tags = Tags::default();
+                tags.insert("latex-math".to_string());
+                par.items.push(ParagraphItem::MText(TextWithMeta {
+                    text: math.to_string(),
+                    tags,
+                    ..Default::default()
+                }));
+            },
+            Event::DisplayMath(math) => {
+                code_block.language = "latex-math".to_string();
+                code_block.code = math.to_string();
+                code_block.mode = CodeModeHint::Replace;
+                par.items.push(ParagraphItem::Code(Ok(mem::take(&mut code_block))));
             },
             _ => { },
         }

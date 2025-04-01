@@ -3,6 +3,11 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
+pre
+$$
+    inline math
+$$
+post
 ";
 
 fn main() {
