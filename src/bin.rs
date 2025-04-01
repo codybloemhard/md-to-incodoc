@@ -3,9 +3,6 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-pre ![ref] post
-
-[ref]: url 'title'
 ";
 
 fn main() {

@@ -22,13 +22,15 @@ converted:
 - super/sub script -> text/emphasis with tags "super" and "sub"
 - link -> link, corporeal link types discarded
 - image -> link tagged as image
+- html
+  - html block -> code block tagged "unconv-corp" (unconverted corporeal content)
+  - inline html -> inside "html()" enclosure, text with html tags stripped
 
 todo:
 
 - metadata block
   - convention for nav as metadata
 - math
-- html (ignore or codeblock?)
 
 not yet supported in incodoc:
 

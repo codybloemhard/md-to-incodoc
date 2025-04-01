@@ -15,6 +15,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut in_list_item = false;
     let mut em_lvl = 0;
     let mut sc_lvl = 0;
+    let mut html_indent = 0;
 
     let mut string = String::new();
     let mut code_lang = String::new();
@@ -222,6 +223,38 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             Event::End(TagEnd::Image) => {
                 par.items.push(ParagraphItem::Link(mem::take(&mut link)));
                 lcap = false;
+            },
+            Event::Start(Tag::HtmlBlock) => {
+            },
+            Event::Html(html_line) => {
+                string.push_str(&html_line);
+            },
+            Event::End(TagEnd::HtmlBlock) => {
+                code_block.language = "html".to_string();
+                code_block.code = mem::take(&mut string);
+                code_block.tags.insert("unconv-corp".to_string());
+                par.items.push(ParagraphItem::Code(Ok(mem::take(&mut code_block))));
+            },
+            Event::InlineHtml(tag) => {
+                let old = html_indent;
+                html_indent += if tag.contains("</") { -1 } else { 1 };
+                if html_indent > 0 && old == 0 {
+                    let em = Emphasis {
+                        strength: EmStrength::Light,
+                        etype: EmType::Deemphasis,
+                        text: "html(".to_string(),
+                        ..Default::default()
+                    };
+                    par.items.push(ParagraphItem::Em(em));
+                } else if html_indent == 0 && old > 0 {
+                    let em = Emphasis {
+                        strength: EmStrength::Light,
+                        etype: EmType::Deemphasis,
+                        text: ")".to_string(),
+                        ..Default::default()
+                    };
+                    par.items.push(ParagraphItem::Em(em));
+                }
             },
             _ => { },
         }

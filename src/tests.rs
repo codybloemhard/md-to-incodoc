@@ -2273,5 +2273,64 @@ pre ![ref] post
             ..Default::default()
         }
     );
+
+    test!(
+        t_html_c0,
+        "
+pre <p><a>a</a><a>b</a></p> post
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("pre ".to_string()),
+                    ParagraphItem::Em(Emphasis {
+                        strength: EmStrength::Light,
+                        etype: EmType::Deemphasis,
+                        text: "html(".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text("a".to_string()),
+                    ParagraphItem::Text("b".to_string()),
+                    ParagraphItem::Em(Emphasis {
+                        strength: EmStrength::Light,
+                        etype: EmType::Deemphasis,
+                        text: ")".to_string(),
+                        ..Default::default()
+                    }),
+                    ParagraphItem::Text(" post".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_html_c1,
+        "
+<p> inside html</p>
+<p> inside html</p>
+<p> inside html</p>
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Code(Ok(CodeBlock {
+                        language: "html".to_string(),
+                        code:
+"<p> inside html</p>
+<p> inside html</p>
+<p> inside html</p>
+"
+                        .to_string(),
+                        tags: hset!(["unconv-corp"]),
+                        ..Default::default()
+                    })),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
 }
 
