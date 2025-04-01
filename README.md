@@ -33,7 +33,7 @@ converted:
 
 todo:
 
-- metadata block
+- yaml metadata block
   - convention for nav as metadata
 
 not yet supported in incodoc:

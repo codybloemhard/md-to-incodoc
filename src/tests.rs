@@ -58,7 +58,8 @@ par par par
             items: vec![DocItem::Paragraph(Paragraph {
                 items: vec![
                     ParagraphItem::Text("par par par".to_string()),
-                    ParagraphItem::Text("\npar par par".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("par par par".to_string()),
                 ],
                 ..Default::default()
             })],
@@ -106,14 +107,16 @@ par par par
                 DocItem::Paragraph(Paragraph {
                     items: vec![
                         ParagraphItem::Text("par par par".to_string()),
-                        ParagraphItem::Text("\npar par par".to_string()),
+                        ParagraphItem::Text("\n".to_string()),
+                        ParagraphItem::Text("par par par".to_string()),
                     ],
                     ..Default::default()
                 }),
                 DocItem::Paragraph(Paragraph {
                     items: vec![
                         ParagraphItem::Text("par par par".to_string()),
-                        ParagraphItem::Text("\npar par par".to_string()),
+                        ParagraphItem::Text("\n".to_string()),
+                        ParagraphItem::Text("par par par".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -976,14 +979,16 @@ let x = 0;
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("\naaa".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("\naaa".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
@@ -1016,14 +1021,16 @@ let x = 0;
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("\naaa".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("\naaa".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
@@ -1056,14 +1063,16 @@ let x = 0;
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("\naaa".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
                                     ],
                                     ..Default::default()
                                 },
                                 Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("aaa".to_string()),
-                                        ParagraphItem::Text("\naaa".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("aaa".to_string()),
                                     ],
                                     tags: hset!(["checked"]),
                                     ..Default::default()
@@ -1128,7 +1137,8 @@ let x = 0;
                                                 Paragraph {
                                                     items: vec![
                                                         ParagraphItem::Text("bbb".to_string()),
-                                                        ParagraphItem::Text("\nbbb".to_string()),
+                                                        ParagraphItem::Text("\n".to_string()),
+                                                        ParagraphItem::Text("bbb".to_string()),
                                                     ],
                                                     ..Default::default()
                                                 },
@@ -1536,7 +1546,8 @@ pre ~sub~ post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::MText(TextWithMeta{
                         text: "sub".to_string(),
                         tags: hset!(["sub"]),
@@ -1567,7 +1578,8 @@ pre *~sub~* post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis{
                         strength: EmStrength::Light,
                         text: "sub".to_string(),
@@ -1599,7 +1611,8 @@ pre **~sub~** post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis{
                         strength: EmStrength::Medium,
                         text: "sub".to_string(),
@@ -1631,7 +1644,8 @@ pre ***~sub~*** post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis{
                         strength: EmStrength::Strong,
                         text: "sub".to_string(),
@@ -1666,7 +1680,8 @@ pre ~~~sub~~~ post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ~~~sub~~~ post".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ~~~sub~~~ post".to_string()),
                 ],
                 ..Default::default()
             })],
@@ -1701,7 +1716,8 @@ pre *a *~sub~* b* post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis{
                         strength: EmStrength::Light,
                         text: "a ".to_string(),
@@ -1753,7 +1769,8 @@ pre *a **~sub~** b* post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis{
                         strength: EmStrength::Light,
                         text: "a ".to_string(),
@@ -1805,7 +1822,8 @@ pre **a *~sub~* b** post
                         ..Default::default()
                     }),
                     ParagraphItem::Text(" post".to_string()),
-                    ParagraphItem::Text("\npre ".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Em(Emphasis{
                         strength: EmStrength::Medium,
                         text: "a ".to_string(),
@@ -1849,7 +1867,8 @@ post
                 }),
                 DocItem::Paragraph(Paragraph {
                     items: vec![
-                        ParagraphItem::Text("\npost".to_string()),
+                        ParagraphItem::Text("\n".to_string()),
+                        ParagraphItem::Text("post".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -1877,7 +1896,8 @@ post
                 }),
                 DocItem::Paragraph(Paragraph {
                     items: vec![
-                        ParagraphItem::Text("\npost".to_string()),
+                        ParagraphItem::Text("\n".to_string()),
+                        ParagraphItem::Text("post".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -2391,6 +2411,7 @@ post
             items: vec![DocItem::Paragraph(Paragraph {
                 items: vec![
                     ParagraphItem::Text("pre".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
                     ParagraphItem::Code(Ok(CodeBlock {
                         language: "latex-math".to_string(),
                         code:
@@ -2400,7 +2421,8 @@ post
                         mode: CodeModeHint::Replace,
                         ..Default::default()
                     })),
-                    ParagraphItem::Text("\n\npost".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("post".to_string()),
                 ],
                 ..Default::default()
             })],

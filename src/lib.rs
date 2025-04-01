@@ -45,6 +45,9 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             },
             Event::SoftBreak | Event::HardBreak | Event::Rule => {
                 string.push('\n');
+                finish_text_piece(
+                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                );
             },
             // Event::Start(Tag::Paragraph) => {},
             Event::End(TagEnd::Paragraph) if !in_list_item & !par.items.is_empty() => {
