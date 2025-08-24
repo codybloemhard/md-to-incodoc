@@ -5,6 +5,7 @@ use std::mem;
 use incodoc::*;
 use pulldown_cmark::{ Parser, Options, Event, Tag, TagEnd, CodeBlockKind, LinkType };
 
+#[must_use]
 pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let options = Options::all();
     let parser = Parser::new_ext(input, options);
@@ -33,7 +34,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut doc = Doc::default();
 
     for event in parser {
-        println!("{:?}", event);
+        println!("{event:?}");
         match event {
             Event::Text(text) => {
                 string.push_str(&text);
@@ -274,6 +275,27 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 code_block.mode = CodeModeHint::Replace;
                 par.items.push(ParagraphItem::Code(Ok(mem::take(&mut code_block))));
             },
+            Event::FootnoteReference(reference) => {
+                link.url = format!("#footnote-{reference}");
+                link.tags.insert("footnote-ref".to_string());
+                link.items.push(LinkItem::String(format!("[{reference}]")));
+                par.items.push(ParagraphItem::Link(mem::take(&mut link)));
+            },
+            Event::Start(Tag::FootnoteDefinition(definition)) => {
+                // commit current section
+                pre_sections.push((mem::take(&mut head), mem::take(&mut section_items)));
+                // set up new heading for new section
+                head.items.push(HeadingItem::String(format!("{definition}")));
+                head.level = 255; // not the final head level
+                head.props.insert(
+                    "id".to_string(),
+                    PropVal::String(format!("#footnote-{definition}"))
+                );
+                head.tags.insert("footnote-def".to_string());
+                pre_head = false;
+            },
+            Event::End(TagEnd::FootnoteDefinition) => {
+            },
             _ => { },
         }
     }
@@ -357,7 +379,7 @@ fn pre_sections_to_sections(mut pres: Vec<(Heading, Vec<SectionItem>)>) -> Secti
     for item in first.1 {
         res.push(item);
     }
-    for b in buckets.into_iter() {
+    for b in buckets {
         if !b.is_empty() {
             res.push(SectionItem::Section(pre_sections_to_sections(b)));
         }
