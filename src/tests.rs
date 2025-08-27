@@ -2429,5 +2429,184 @@ post
             ..Default::default()
         }
     );
+
+    test!(
+        t_footnote_c0,
+        "
+footnote [^0]
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("footnote ".to_string()),
+                    ParagraphItem::Link(Link {
+                        items: vec![
+                            LinkItem::String("[^0]".to_string()),
+                        ],
+                        url: "#footnote-0".to_string(),
+                        tags: hset!(["footnote-ref"]),
+                        ..Default::default()
+                    }),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_footnote_c1,
+        "
+[^0]: footnote def
+        ",
+        Doc {
+            items: vec![DocItem::Section(Section {
+                heading: Heading {
+                    level: 254,
+                    items: vec![
+                        HeadingItem::String("0".to_string()),
+                    ],
+                    tags: hset!(["footnote-def"]),
+                    props: props!([
+                        ("id".to_string(), PropVal::String("#footnote-0".to_string())),
+                    ]),
+                    ..Default::default()
+                },
+                items: vec![SectionItem::Paragraph(Paragraph {
+                    items: vec![ParagraphItem::Text("footnote def".to_string())],
+                    ..Default::default()
+                })],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_footnote_c2,
+        "
+footnote [^0]
+another [^longernoteid]
+[^0]: footnote def
+
+### h3
+
+[^longernoteid]:
+
+line par 0.
+line par 0.
+
+`{ code }`
+
+line par 2.
+line par 2.
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("footnote ".to_string()),
+                        ParagraphItem::Link(Link {
+                            items: vec![
+                                LinkItem::String("[^0]".to_string()),
+                            ],
+                            url: "#footnote-0".to_string(),
+                            tags: hset!(["footnote-ref"]),
+                            ..Default::default()
+                        }),
+                        ParagraphItem::Text("\n".to_string()),
+                        ParagraphItem::Text("another ".to_string()),
+                        ParagraphItem::Link(Link {
+                            items: vec![
+                                LinkItem::String("[^longernoteid]".to_string()),
+                            ],
+                            url: "#footnote-longernoteid".to_string(),
+                            tags: hset!(["footnote-ref"]),
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 254,
+                        items: vec![
+                            HeadingItem::String("0".to_string()),
+                        ],
+                        tags: hset!(["footnote-def"]),
+                        props: props!([
+                            ("id".to_string(), PropVal::String("#footnote-0".to_string())),
+                        ]),
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![ParagraphItem::Text("footnote def".to_string())],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 2,
+                        items: vec![
+                            HeadingItem::String("h3".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 254,
+                                items: vec![
+                                    HeadingItem::String("longernoteid".to_string()),
+                                ],
+                                tags: hset!(["footnote-def"]),
+                                props: props!([
+                                    (
+                                        "id".to_string(),
+                                        PropVal::String("#footnote-longernoteid".to_string())
+                                    ),
+                                ]),
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("line par 0.".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("line par 0.".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::MText(TextWithMeta{
+                                            text: "{ code }".to_string(),
+                                            tags: hset!(["code"]),
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    ..Default::default()
+                                }),
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("line par 2.".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
+                                        ParagraphItem::Text("line par 2.".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
 }
 

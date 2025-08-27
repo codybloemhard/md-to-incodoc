@@ -5,17 +5,19 @@ const INPUT: &str =
 "
 Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 
-### Footnotes
-
 [^1]: This is the first footnote.
 
+### Footnotes
+
 [^bignote]:
-    Here's one with multiple paragraphs and code.
 
-    Indent paragraphs to include them in the footnote.
-    `{ my code }`
+  line par 0.
+  line par 0.
 
-    Add as many paragraphs as you like.
+  `{ code }`
+
+  line par 2.
+  line par 2.
 ";
 
 fn main() {
