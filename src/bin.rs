@@ -3,21 +3,30 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-Here's a simple footnote,[^1] and here's a longer one.[^bignote]
+test line
 
-[^1]: This is the first footnote.
++++
+tags a b c
+prop lang en
+prop id some-id
+nav
+  nav top level
+    link home $ /home
+    link about $ /about
+    nav sub nav
+      link extra link $ /sub/extra
+    end
+    nav other
+      link i like cheese $ ./cheese
+      link sosig is happiness $ ./sosig
+    end
+  end
+end
 
-### Footnotes
+yay
 
-[^bignote]:
-
-  line par 0.
-  line par 0.
-
-  `{ code }`
-
-  line par 2.
-  line par 2.
+line
++++
 ";
 
 fn main() {

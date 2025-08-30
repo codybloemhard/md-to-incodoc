@@ -30,15 +30,20 @@ converted:
 - math
   - inline -> text tagged "latex-math"
   - display -> code block with language set "latex-math" and mode set "replace"
+- footnotes
+  - footnote reference -> link with tag
+  - footnote definition -> section with tag and id to be linked by
+- pluses metadata block -> document nav and meta
+
+not converted
+
+- yaml metadata block (use pluses metadata block)
 
 todo:
 
-- yaml metadata block
-  - convention for nav as metadata
+- block quote
 
 not yet supported in incodoc:
 
-- block quote
 - definition list
 - table
-- footnotes
