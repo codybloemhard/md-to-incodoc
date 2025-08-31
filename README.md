@@ -33,11 +33,9 @@ converted:
 - footnotes
   - footnote reference -> link with tag
   - footnote definition -> section with tag and id to be linked by
-- pluses metadata block -> document nav and meta
-
-not converted
-
-- yaml metadata block (use pluses metadata block)
+- metadata block
+  - pluses metadata block -> document nav and meta
+  - yaml metadata block -> discarded
 
 todo:
 

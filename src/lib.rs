@@ -302,72 +302,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 scap = true;
             },
             Event::End(TagEnd::MetadataBlock(MetadataBlockKind::PlusesStyle)) => {
-                let raw = mem::take(&mut string);
-                let lines = raw.lines();
-                let mut navs = Nav::new();
-                let mut snav = SNav::default();
-                for line in lines {
-                    let line = line.trim();
-                    let mut words = line.split(' ');
-                    let mut mode = ' ';
-                    if let Some(first_word) = words.next() {
-                        match first_word {
-                            "tags" => mode = 't',
-                            "prop" => mode = 'p',
-                            "link" => mode = 'l',
-                            "nav" => mode = 'n',
-                            "end" => mode = 'e',
-                            _ => { continue; }
-                        }
-                    }
-                    println!("MODE: {mode}");
-                    match mode {
-                        't' => {
-                            for tag in words {
-                                doc.tags.insert(tag.to_string());
-                            }
-                        },
-                        'p' => {
-                            if let Some(prop) = words.next() && let Some(val) = words.next() {
-                                doc.props.insert(
-                                    prop.to_string(),
-                                    PropVal::String(val.to_string())
-                                );
-                            }
-                        },
-                        'n' => {
-                            navs.push(mem::take(&mut snav));
-                            for word in words {
-                                snav.description.push_str(word);
-                            }
-                        },
-                        'e' => {
-                            if let Some(mut parent) = navs.pop() {
-                                parent.subs.push(mem::take(&mut snav));
-                                snav = parent;
-                            }
-                        },
-                        'l' => {
-                            let mut link = Link::default();
-                            let mut temp = String::new();
-                            for word in words {
-                                if word == "$" {
-                                    link.items.push(LinkItem::String(mem::take(&mut temp)));
-                                } else {
-                                    temp.push_str(word);
-                                }
-                            }
-                            link.url = temp;
-                            snav.links.push(link);
-                        },
-                        _ => { },
-                    }
-                }
-                let SNav { subs, .. } = snav;
-                if let Some(SNav { subs, .. }) = subs.into_iter().next(){
-                    navs = subs;
-                    doc.items.push(DocItem::Nav(navs));
-                }
+                parse_metadata_block(mem::take(&mut string), &mut doc);
             },
             _ => { },
         }
@@ -381,6 +316,78 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     populate_doc(&mut doc, mega_section);
 
     doc
+}
+
+fn parse_metadata_block(raw: String, doc: &mut Doc) {
+    let lines = raw.lines();
+    let mut navs = Nav::new();
+    let mut snav = SNav::default();
+    for line in lines {
+        let line = line.trim();
+        let mut words = line.split(' ');
+        let mut mode = ' ';
+        if let Some(first_word) = words.next() {
+            match first_word {
+                "tags" => mode = 't',
+                "prop" => mode = 'p',
+                "link" => mode = 'l',
+                "nav" => mode = 'n',
+                "end" => mode = 'e',
+                _ => { continue; }
+            }
+        }
+        match mode {
+            't' => {
+                for tag in words {
+                    doc.tags.insert(tag.to_string());
+                }
+            },
+            'p' => {
+                if let Some(prop) = words.next() && let Some(val) = words.next() {
+                    doc.props.insert(
+                        prop.to_string(),
+                        PropVal::String(val.to_string())
+                    );
+                }
+            },
+            'n' => {
+                navs.push(mem::take(&mut snav));
+                for word in words {
+                    snav.description.push_str(word);
+                    snav.description.push(' ');
+                }
+                snav.description.pop();
+            },
+            'e' => {
+                if let Some(mut parent) = navs.pop() {
+                    parent.subs.push(mem::take(&mut snav));
+                    snav = parent;
+                }
+            },
+            'l' => {
+                let mut link = Link::default();
+                let mut temp = String::new();
+                for word in words {
+                    if word == "$" {
+                        temp.pop();
+                        link.items.push(LinkItem::String(mem::take(&mut temp)));
+                    } else {
+                        temp.push_str(word);
+                        temp.push(' ');
+                    }
+                }
+                temp.pop();
+                link.url = temp;
+                snav.links.push(link);
+            },
+            _ => { },
+        }
+    }
+    let SNav { subs, .. } = snav;
+    if let Some(SNav { subs, .. }) = subs.into_iter().next(){
+        navs = subs;
+        doc.items.push(DocItem::Nav(navs));
+    }
 }
 
 fn finish_text_piece(

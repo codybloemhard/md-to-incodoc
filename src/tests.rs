@@ -2608,5 +2608,331 @@ line par 2.
             ..Default::default()
         }
     );
+
+    test!(
+        t_metadata_block_c0,
+        "
++++
++++
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("+++".to_string()),
+                        ParagraphItem::Text("\n".to_string()),
+                        ParagraphItem::Text("+++".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c1,
+        "
++++
+tags a
++++
+        ",
+        Doc {
+            tags: hset!(["a"]),
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c2,
+        "
++++
+tags a b c
++++
+        ",
+        Doc {
+            tags: hset!(["a", "b", "c"]),
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c3,
+        "
++++
+tags a b c
+tags d e
++++
+        ",
+        Doc {
+            tags: hset!(["a", "b", "c", "d", "e"]),
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c4,
+        "
++++
+prop p0 v0
+prop p1 v1
++++
+        ",
+        Doc {
+            props: props!([
+                (
+                    "p0".to_string(),
+                    PropVal::String("v0".to_string())
+                ),
+                (
+                    "p1".to_string(),
+                    PropVal::String("v1".to_string())
+                ),
+            ]),
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c5,
+        "
++++
+prop notanumber 0
++++
+        ",
+        Doc {
+            props: props!([
+                (
+                    "notanumber".to_string(),
+                    PropVal::String("0".to_string())
+                ),
+            ]),
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c6,
+        "
++++
+tags a b c
+prop notanumber 0
+this will be ignored
+nav
+end
++++
+        ",
+        Doc {
+            tags: hset!(["a", "b", "c"]),
+            props: props!([
+                (
+                    "notanumber".to_string(),
+                    PropVal::String("0".to_string())
+                ),
+            ]),
+            items: vec![
+                DocItem::Nav(vec![]),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c7,
+        "
++++
+tags a b c
+prop notanumber 0
+this will be ignored
+nav
+  link ignore-link-in-toplevel
+  random stuff
+end
++++
+        ",
+        Doc {
+            tags: hset!(["a", "b", "c"]),
+            props: props!([
+                (
+                    "notanumber".to_string(),
+                    PropVal::String("0".to_string())
+                ),
+            ]),
+            items: vec![
+                DocItem::Nav(vec![]),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c8,
+        "
++++
+nav
+  nav a a a
+  end
+end
++++
+        ",
+        Doc {
+            items: vec![
+                DocItem::Nav(vec![
+                    SNav {
+                        description: "a a a".to_string(),
+                        ..Default::default()
+                    },
+                ]),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c9,
+        "
++++
+nav
+  nav a a a
+end
++++
+        ",
+        Doc {
+            items: vec![
+                DocItem::Nav(vec![
+                ]),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c10,
+        "
++++
+nav
+  nav a a a
+    link title 0 $ dest 0
+    link title 1 $ dest 1
+  end
+end
++++
+        ",
+        Doc {
+            items: vec![
+                DocItem::Nav(vec![
+                    SNav {
+                        description: "a a a".to_string(),
+                        links: vec![
+                            Link {
+                                url: "dest 0".to_string(),
+                                items: vec![LinkItem::String("title 0".to_string())],
+                                ..Default::default()
+                            },
+                            Link {
+                                url: "dest 1".to_string(),
+                                items: vec![LinkItem::String("title 1".to_string())],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    },
+                ]),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c11,
+        "
++++
+nav
+  nav a a a
+    link title 0 $ dest 0
+    nav b b b
+    end
+    link title 1 $ dest 1
+    nav c c c
+      link title 2 $ dest 2
+    end
+  end
+end
++++
+        ",
+        Doc {
+            items: vec![
+                DocItem::Nav(vec![
+                    SNav {
+                        description: "a a a".to_string(),
+                        links: vec![
+                            Link {
+                                url: "dest 0".to_string(),
+                                items: vec![LinkItem::String("title 0".to_string())],
+                                ..Default::default()
+                            },
+                            Link {
+                                url: "dest 1".to_string(),
+                                items: vec![LinkItem::String("title 1".to_string())],
+                                ..Default::default()
+                            },
+                        ],
+                        subs: vec![
+                            SNav {
+                                description: "b b b".to_string(),
+                                ..Default::default()
+                            },
+                            SNav {
+                                description: "c c c".to_string(),
+                                links: vec![
+                                    Link {
+                                        url: "dest 2".to_string(),
+                                        items: vec![LinkItem::String("title 2".to_string())],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    },
+                ]),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_metadata_block_c12,
+        "
++++
+nav
+  nav a a a
+    link title 0 $ dest 0
+    tags a b c
+  end
+end
++++
+        ",
+        Doc {
+            tags: hset!(["a", "b", "c"]),
+            items: vec![
+                DocItem::Nav(vec![
+                    SNav {
+                        description: "a a a".to_string(),
+                        links: vec![
+                            Link {
+                                url: "dest 0".to_string(),
+                                items: vec![LinkItem::String("title 0".to_string())],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    },
+                ]),
+            ],
+            ..Default::default()
+        }
+    );
 }
 
