@@ -2,8 +2,6 @@
 
 Convert markdown to incodoc.
 
-very much work in progress.
-
 converted:
 
 - paragraph -> paragraph
@@ -40,6 +38,7 @@ converted:
 todo:
 
 - block quote
+- add tags and prop within nav
 
 not yet supported in incodoc:
 

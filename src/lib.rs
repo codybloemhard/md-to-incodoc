@@ -3,6 +3,7 @@ mod tests;
 use std::mem;
 
 use incodoc::*;
+use incodoc::actions::PruneIncodoc;
 use pulldown_cmark::{
     Parser, Options, Event, Tag, TagEnd, CodeBlockKind, LinkType, MetadataBlockKind
 };
@@ -14,11 +15,13 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
 
     let mut scap = false; // string capture: if a tag started that captures a string
     let mut lcap = false; // link capture: capture em and text for links
+    let mut pcap = false; // paragraph capture: if tag started that captures a whole paragraph
     let mut pre_head = true;
     let mut in_list_item = false;
     let mut em_lvl = 0;
     let mut sc_lvl = 0;
     let mut html_indent = 0;
+    let mut quote_count = 0;
 
     let mut string = String::new();
     let mut code_lang = String::new();
@@ -27,8 +30,10 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut list_stack = Vec::new();
     let mut section_items = Vec::new();
     let mut pre_sections = Vec::new();
+    let mut section_stack = Vec::new();
 
     let mut par = Paragraph::default();
+    let mut section = Section::default(); // not for regular sections
     let mut head = Heading::default();
     let mut code_block = CodeBlock::default();
     let mut list = List::default();
@@ -53,12 +58,13 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 );
             },
             // Event::Start(Tag::Paragraph) => {},
-            Event::End(TagEnd::Paragraph) if !in_list_item & !par.items.is_empty() => {
+            Event::End(TagEnd::Paragraph) if !in_list_item && !par.items.is_empty() && !pcap => {
                 let par = mem::take(&mut par);
                 if pre_head {
                     doc.items.push(DocItem::Paragraph(par));
                 } else {
                     section_items.push(SectionItem::Paragraph(par));
+                    println!("PAR END");
                 }
             },
             Event::Start(Tag::Heading { level, id, classes, attrs }) => {
@@ -303,6 +309,45 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             },
             Event::End(TagEnd::MetadataBlock(MetadataBlockKind::PlusesStyle)) => {
                 parse_metadata_block(mem::take(&mut string), &mut doc);
+                scap = false;
+            },
+            Event::Start(Tag::BlockQuote(qtype)) => {
+                if quote_count > 0 {
+                    section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
+                    section_stack.push(mem::take(&mut section));
+                }
+                quote_count += 1;
+                pcap = true;
+                let mut head = Heading::default();
+                head.level = 200 + quote_count;
+                if let Some(qtype) = qtype {
+                    // set up new heading for new section
+                    head.items.push(HeadingItem::String(format!("{qtype:?}")));
+                    section.tags.insert("blockquote-typed".to_string());
+                    section.props.insert(
+                        "blockquote-type".to_string(),
+                        PropVal::String(format!("{qtype:?}"))
+                    );
+                } else {
+                    section.tags.insert("blockquote".to_string());
+                }
+                section.heading = head;
+            },
+            Event::End(TagEnd::BlockQuote(qtype)) => {
+                quote_count -= 1;
+                section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
+                if let Some(mut popped) = section_stack.pop() {
+                    popped.items.push(SectionItem::Section(section));
+                    section = popped;
+                }
+                if section_stack.is_empty() {
+                    section_stack.clear();
+                    section.prune_contentless();
+                    if !section.is_contentless() {
+                        section_items.push(SectionItem::Section(mem::take(&mut section)));
+                    }
+                    pcap = false;
+                }
             },
             _ => { },
         }

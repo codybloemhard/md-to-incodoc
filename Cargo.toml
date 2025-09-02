@@ -15,5 +15,5 @@ name = "testbin"
 path = "src/bin.rs"
 
 [dependencies]
-incodoc = "0.2.0"
+incodoc = "0.3.0"
 pulldown-cmark = "0.13.0"
