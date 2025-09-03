@@ -299,12 +299,12 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 let mut head = Heading::default();
                 head.items.push(HeadingItem::String(format!("{definition}")));
                 head.level = 200 + quote_count;
-                head.props.insert(
+                section.heading = head;
+                section.props.insert(
                     "id".to_string(),
                     PropVal::String(format!("#footnote-{definition}"))
                 );
-                head.tags.insert("footnote-def".to_string());
-                section.heading = head;
+                section.tags.insert("footnote-def".to_string());
             },
             Event::End(TagEnd::FootnoteDefinition) => {
                 quote_count -= 1;

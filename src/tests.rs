@@ -2466,17 +2466,16 @@ footnote [^0]
                     items: vec![
                         HeadingItem::String("0".to_string()),
                     ],
-                    tags: hset!(["footnote-def"]),
-                    props: props!([
-                        ("id".to_string(), PropVal::String("#footnote-0".to_string())),
-                    ]),
                     ..Default::default()
                 },
                 items: vec![SectionItem::Paragraph(Paragraph {
                     items: vec![ParagraphItem::Text("footnote def".to_string())],
                     ..Default::default()
                 })],
-                ..Default::default()
+                tags: hset!(["footnote-def"]),
+                props: props!([
+                    ("id".to_string(), PropVal::String("#footnote-0".to_string())),
+                ]),
             })],
             ..Default::default()
         }
@@ -2497,6 +2496,8 @@ another [^longernoteid]
   `{ code }`
   line 2.
   line 3.
+
+outside
         ",
         Doc {
             items: vec![
@@ -2530,10 +2531,6 @@ another [^longernoteid]
                         items: vec![
                             HeadingItem::String("0".to_string()),
                         ],
-                        tags: hset!(["footnote-def"]),
-                        props: props!([
-                            ("id".to_string(), PropVal::String("#footnote-0".to_string())),
-                        ]),
                         ..Default::default()
                     },
                     items: vec![
@@ -2542,7 +2539,10 @@ another [^longernoteid]
                             ..Default::default()
                         }),
                     ],
-                    ..Default::default()
+                    tags: hset!(["footnote-def"]),
+                    props: props!([
+                        ("id".to_string(), PropVal::String("#footnote-0".to_string())),
+                    ]),
                 }),
                 DocItem::Section(Section {
                     heading: Heading {
@@ -2559,13 +2559,6 @@ another [^longernoteid]
                                 items: vec![
                                     HeadingItem::String("longernoteid".to_string()),
                                 ],
-                                tags: hset!(["footnote-def"]),
-                                props: props!([
-                                    (
-                                        "id".to_string(),
-                                        PropVal::String("#footnote-longernoteid".to_string())
-                                    ),
-                                ]),
                                 ..Default::default()
                             },
                             items: vec![
@@ -2583,6 +2576,18 @@ another [^longernoteid]
                                     ],
                                     ..Default::default()
                                 }),
+                            ],
+                            tags: hset!(["footnote-def"]),
+                            props: props!([
+                                (
+                                    "id".to_string(),
+                                    PropVal::String("#footnote-longernoteid".to_string())
+                                ),
+                            ]),
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("outside".to_string()),
                             ],
                             ..Default::default()
                         }),
