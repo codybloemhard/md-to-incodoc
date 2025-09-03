@@ -5,6 +5,10 @@ const INPUT: &str =
 "
 # h1
 
+regular line [^ref]
+
+[^ref]: test ref
+
 regular line
 
 > regular quote

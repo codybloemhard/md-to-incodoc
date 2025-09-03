@@ -1,0 +1,30 @@
+Section(Section {
+    heading: Heading { level: 2, items: [String("h3")], tags: {}, props: {} },
+    items: [
+      Section(Section {
+        heading: Heading { level: 200, items: [String("longernoteid")], tags: {"footnote-def"}, props: {"id": String("#footnote-longernoteid")} },
+        items: [],
+        tags: {},
+        props: {}
+      }),
+      Paragraph(Paragraph {
+        items: [Text("line par 0."), Text("\n"), Text("line par 0.")],
+        tags: {},
+        props: {}
+      }),
+      Paragraph(Paragraph {
+        items: [MText(TextWithMeta { text: "{ code }", tags: {"code"}, props: {} })],
+        tags: {},
+        props: {}
+      }),
+      Paragraph(Paragraph {
+        items: [Text("line par 2."), Text("\n"), Text("line par 2.")],
+        tags: {},
+        props: {}
+      })
+    ],
+    tags: {},
+    props: {}
+})
+
+Section(Section { heading: Heading { level: 2, items: [String("h3")], tags: {}, props: {} }, items: [Section(Section { heading: Heading { level: 200, items: [String("longernoteid")], tags: {"footnote-def"}, props: {"id": String("#footnote-longernoteid")} }, items: [Paragraph(Paragraph { items: [Text("line par 0."), Text("\n"), Text("line par 0.")], tags: {}, props: {} }), Paragraph(Paragraph { items: [MText(TextWithMeta { text: "{ code }", tags: {"code"}, props: {} })], tags: {}, props: {} }), Paragraph(Paragraph { items: [Text("line par 2."), Text("\n"), Text("line par 2.")], tags: {}, props: {} })], tags: {}, props: {} })], tags: {}, props: {} })

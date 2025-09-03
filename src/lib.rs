@@ -64,7 +64,6 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                     doc.items.push(DocItem::Paragraph(par));
                 } else {
                     section_items.push(SectionItem::Paragraph(par));
-                    println!("PAR END");
                 }
             },
             Event::Start(Tag::Heading { level, id, classes, attrs }) => {
@@ -290,19 +289,38 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 par.items.push(ParagraphItem::Link(mem::take(&mut link)));
             },
             Event::Start(Tag::FootnoteDefinition(definition)) => {
-                // commit current section
-                pre_sections.push((mem::take(&mut head), mem::take(&mut section_items)));
-                // set up new heading for new section
+                if quote_count > 0 {
+                    section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
+                    section_stack.push(mem::take(&mut section));
+                }
+                quote_count += 1;
+                pcap = true;
+                pre_head = false;
+                let mut head = Heading::default();
                 head.items.push(HeadingItem::String(format!("{definition}")));
-                head.level = 255; // not the final head level
+                head.level = 200 + quote_count;
                 head.props.insert(
                     "id".to_string(),
                     PropVal::String(format!("#footnote-{definition}"))
                 );
                 head.tags.insert("footnote-def".to_string());
-                pre_head = false;
+                section.heading = head;
             },
             Event::End(TagEnd::FootnoteDefinition) => {
+                quote_count -= 1;
+                section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
+                if let Some(mut popped) = section_stack.pop() {
+                    popped.items.push(SectionItem::Section(section));
+                    section = popped;
+                }
+                if section_stack.is_empty() {
+                    section_stack.clear();
+                    section.prune_contentless();
+                    if !section.is_contentless() {
+                        section_items.push(SectionItem::Section(mem::take(&mut section)));
+                    }
+                    pcap = false;
+                }
             },
             Event::Start(Tag::MetadataBlock(MetadataBlockKind::PlusesStyle)) => {
                 scap = true;

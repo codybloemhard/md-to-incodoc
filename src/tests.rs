@@ -2462,7 +2462,7 @@ footnote [^0]
         Doc {
             items: vec![DocItem::Section(Section {
                 heading: Heading {
-                    level: 254,
+                    level: 200,
                     items: vec![
                         HeadingItem::String("0".to_string()),
                     ],
@@ -2492,14 +2492,11 @@ another [^longernoteid]
 ### h3
 
 [^longernoteid]:
-
-line par 0.
-line par 0.
-
-`{ code }`
-
-line par 2.
-line par 2.
+  line 0.
+  line 1.
+  `{ code }`
+  line 2.
+  line 3.
         ",
         Doc {
             items: vec![
@@ -2529,7 +2526,7 @@ line par 2.
                 }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 254,
+                        level: 200,
                         items: vec![
                             HeadingItem::String("0".to_string()),
                         ],
@@ -2558,7 +2555,7 @@ line par 2.
                     items: vec![
                         SectionItem::Section(Section {
                             heading: Heading {
-                                level: 254,
+                                level: 200,
                                 items: vec![
                                     HeadingItem::String("longernoteid".to_string()),
                                 ],
@@ -2574,27 +2571,15 @@ line par 2.
                             items: vec![
                                 SectionItem::Paragraph(Paragraph {
                                     items: vec![
-                                        ParagraphItem::Text("line par 0.".to_string()),
-                                        ParagraphItem::Text("\n".to_string()),
-                                        ParagraphItem::Text("line par 0.".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
+                                        ParagraphItem::Text("line 0.".to_string()),
+                                        ParagraphItem::Text("line 1.".to_string()),
                                         ParagraphItem::MText(TextWithMeta{
                                             text: "{ code }".to_string(),
                                             tags: hset!(["code"]),
                                             ..Default::default()
                                         }),
-                                    ],
-                                    ..Default::default()
-                                }),
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("line par 2.".to_string()),
-                                        ParagraphItem::Text("\n".to_string()),
-                                        ParagraphItem::Text("line par 2.".to_string()),
+                                        ParagraphItem::Text("line 2.".to_string()),
+                                        ParagraphItem::Text("line 3.".to_string()),
                                     ],
                                     ..Default::default()
                                 }),
