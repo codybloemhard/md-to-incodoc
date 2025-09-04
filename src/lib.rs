@@ -8,6 +8,8 @@ use pulldown_cmark::{
     Parser, Options, Event, Tag, TagEnd, CodeBlockKind, LinkType, MetadataBlockKind
 };
 
+pub const MICRO_SECTION_HEADING_LEVEL: u8 = 100;
+
 #[must_use]
 pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let options = Options::all();
@@ -21,7 +23,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut em_lvl = 0;
     let mut sc_lvl = 0;
     let mut html_indent = 0;
-    let mut quote_count = 0;
+    let mut section_count = 0;
 
     let mut string = String::new();
     let mut code_lang = String::new();
@@ -289,16 +291,16 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 par.items.push(ParagraphItem::Link(mem::take(&mut link)));
             },
             Event::Start(Tag::FootnoteDefinition(definition)) => {
-                if quote_count > 0 {
+                if section_count > 0 {
                     section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
                     section_stack.push(mem::take(&mut section));
                 }
-                quote_count += 1;
+                section_count += 1;
                 pcap = true;
                 pre_head = false;
                 let mut head = Heading::default();
                 head.items.push(HeadingItem::String(format!("{definition}")));
-                head.level = 200 + quote_count;
+                head.level = MICRO_SECTION_HEADING_LEVEL + section_count;
                 section.heading = head;
                 section.props.insert(
                     "id".to_string(),
@@ -307,20 +309,14 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 section.tags.insert("footnote-def".to_string());
             },
             Event::End(TagEnd::FootnoteDefinition) => {
-                quote_count -= 1;
-                section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
-                if let Some(mut popped) = section_stack.pop() {
-                    popped.items.push(SectionItem::Section(section));
-                    section = popped;
-                }
-                if section_stack.is_empty() {
-                    section_stack.clear();
-                    section.prune_contentless();
-                    if !section.is_contentless() {
-                        section_items.push(SectionItem::Section(mem::take(&mut section)));
-                    }
-                    pcap = false;
-                }
+                end_microsection(
+                    &mut section_count,
+                    &mut pcap,
+                    &mut section,
+                    &mut section_stack,
+                    &mut section_items,
+                    &mut par,
+                );
             },
             Event::Start(Tag::MetadataBlock(MetadataBlockKind::PlusesStyle)) => {
                 scap = true;
@@ -330,14 +326,17 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 scap = false;
             },
             Event::Start(Tag::BlockQuote(qtype)) => {
-                if quote_count > 0 {
+                if section_count > 0 {
                     section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
                     section_stack.push(mem::take(&mut section));
                 }
-                quote_count += 1;
+                section_count += 1;
                 pcap = true;
-                let mut head = Heading::default();
-                head.level = 200 + quote_count;
+                let mut head = Heading {
+                    level: MICRO_SECTION_HEADING_LEVEL + section_count,
+                    ..Default::default()
+                };
+                head.level = MICRO_SECTION_HEADING_LEVEL + section_count;
                 if let Some(qtype) = qtype {
                     // set up new heading for new section
                     head.items.push(HeadingItem::String(format!("{qtype:?}")));
@@ -351,21 +350,15 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 }
                 section.heading = head;
             },
-            Event::End(TagEnd::BlockQuote(qtype)) => {
-                quote_count -= 1;
-                section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
-                if let Some(mut popped) = section_stack.pop() {
-                    popped.items.push(SectionItem::Section(section));
-                    section = popped;
-                }
-                if section_stack.is_empty() {
-                    section_stack.clear();
-                    section.prune_contentless();
-                    if !section.is_contentless() {
-                        section_items.push(SectionItem::Section(mem::take(&mut section)));
-                    }
-                    pcap = false;
-                }
+            Event::End(TagEnd::BlockQuote(_)) => {
+                end_microsection(
+                    &mut section_count,
+                    &mut pcap,
+                    &mut section,
+                    &mut section_stack,
+                    &mut section_items,
+                    &mut par,
+                );
             },
             _ => { },
         }
@@ -379,6 +372,30 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     populate_doc(&mut doc, mega_section);
 
     doc
+}
+
+fn end_microsection(
+    section_count: &mut u8,
+    pcap: &mut bool,
+    section: &mut Section,
+    section_stack: &mut Vec<Section>,
+    section_items: &mut Vec<SectionItem>,
+    par: &mut Paragraph,
+) {
+    *section_count -= 1;
+    section.items.push(SectionItem::Paragraph(mem::take(par)));
+    if let Some(mut popped) = section_stack.pop() {
+        popped.items.push(SectionItem::Section(mem::take(section)));
+        *section = popped;
+    }
+    if section_stack.is_empty() {
+        section_stack.clear();
+        section.prune_contentless();
+        if !section.is_contentless() {
+            section_items.push(SectionItem::Section(mem::take(section)));
+        }
+        *pcap = false;
+    }
 }
 
 fn parse_metadata_block(raw: String, doc: &mut Doc) {

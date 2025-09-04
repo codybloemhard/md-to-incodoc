@@ -2462,7 +2462,7 @@ footnote [^0]
         Doc {
             items: vec![DocItem::Section(Section {
                 heading: Heading {
-                    level: 200,
+                    level:  MICRO_SECTION_HEADING_LEVEL,
                     items: vec![
                         HeadingItem::String("0".to_string()),
                     ],
@@ -2527,7 +2527,7 @@ outside
                 }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 200,
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
                             HeadingItem::String("0".to_string()),
                         ],
@@ -2555,7 +2555,7 @@ outside
                     items: vec![
                         SectionItem::Section(Section {
                             heading: Heading {
-                                level: 200,
+                                level: MICRO_SECTION_HEADING_LEVEL,
                                 items: vec![
                                     HeadingItem::String("longernoteid".to_string()),
                                 ],
