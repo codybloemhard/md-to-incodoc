@@ -19,8 +19,16 @@ regular line
 > note quote
 > > [!WARNING]
 > > test
+> test
 
 regular line
+
+line
+> quote
+quote
+quote
+
+line
 ";
 
 fn main() {

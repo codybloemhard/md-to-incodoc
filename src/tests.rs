@@ -2924,5 +2924,706 @@ end
             ..Default::default()
         }
     );
+
+    test!(
+        t_quote_c0,
+        "
+> quote
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: MICRO_SECTION_HEADING_LEVEL,
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("quote".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    tags: hset!(["blockquote"]),
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c1,
+        "
+# h1
+
+line
+> quote
+quote
+quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote"]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c2,
+        "
+# h1
+
+line
+> quote
+> quote
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote"]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c3_note,
+        "
+# h1
+
+line
+> [!NOTE]
+> quote
+> quote
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                items: vec![
+                                    HeadingItem::String("Note".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote-typed"]),
+                            props: props!([
+                                (
+                                    "blockquote-type".to_string(),
+                                    PropVal::String("Note".to_string())
+                                ),
+                            ]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c3_tip,
+        "
+# h1
+
+line
+> [!TIP]
+> quote
+> quote
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                items: vec![
+                                    HeadingItem::String("Tip".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote-typed"]),
+                            props: props!([
+                                (
+                                    "blockquote-type".to_string(),
+                                    PropVal::String("Tip".to_string())
+                                ),
+                            ]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c3_important,
+        "
+# h1
+
+line
+> [!IMPORTANT]
+> quote
+> quote
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                items: vec![
+                                    HeadingItem::String("Important".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote-typed"]),
+                            props: props!([
+                                (
+                                    "blockquote-type".to_string(),
+                                    PropVal::String("Important".to_string())
+                                ),
+                            ]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c3_warning,
+        "
+# h1
+
+line
+> [!WARNING]
+> quote
+> quote
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                items: vec![
+                                    HeadingItem::String("Warning".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote-typed"]),
+                            props: props!([
+                                (
+                                    "blockquote-type".to_string(),
+                                    PropVal::String("Warning".to_string())
+                                ),
+                            ]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c3_caution,
+        "
+# h1
+
+line
+> [!CAUTION]
+> quote
+> quote
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                items: vec![
+                                    HeadingItem::String("Caution".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote-typed"]),
+                            props: props!([
+                                (
+                                    "blockquote-type".to_string(),
+                                    PropVal::String("Caution".to_string())
+                                ),
+                            ]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+// pulldown-cmark doesn't allow for the last line!
+// > [!NOTE]
+// > note quote
+// > > [!WARNING]
+// > > warning quote
+// > note quote
+
+    test!(
+        t_quote_c4,
+        "
+# h1
+
+line
+> [!Note]
+> quote
+> > [!TIP]
+> > quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                items: vec![
+                                    HeadingItem::String("Note".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                                SectionItem::Section(Section {
+                                    heading: Heading {
+                                        level: MICRO_SECTION_HEADING_LEVEL + 1,
+                                        items: vec![
+                                            HeadingItem::String("Tip".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    items: vec![
+                                        SectionItem::Paragraph(Paragraph {
+                                            items: vec![
+                                                ParagraphItem::Text("quote".to_string()),
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    tags: hset!(["blockquote-typed"]),
+                                    props: props!([
+                                        (
+                                            "blockquote-type".to_string(),
+                                            PropVal::String("Tip".to_string())
+                                        ),
+                                    ]),
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote-typed"]),
+                            props: props!([
+                                (
+                                    "blockquote-type".to_string(),
+                                    PropVal::String("Note".to_string())
+                                ),
+                            ]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c5,
+        "
+# h1
+
+line [^ref]
+
+[^ref]: test def
+
+line
+
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line ".to_string()),
+                                ParagraphItem::Link(Link {
+                                    items: vec![
+                                        LinkItem::String("[^ref]".to_string()),
+                                    ],
+                                    url: "#footnote-ref".to_string(),
+                                    tags: hset!(["footnote-ref"]),
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                items: vec![
+                                    HeadingItem::String("ref".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![ParagraphItem::Text("test def".to_string())],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["footnote-def"]),
+                            props: props!([
+                                ("id".to_string(), PropVal::String("#footnote-ref".to_string())),
+                            ]),
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: MICRO_SECTION_HEADING_LEVEL,
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("quote".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            tags: hset!(["blockquote"]),
+                            ..Default::default()
+                        }),
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
 }
 
