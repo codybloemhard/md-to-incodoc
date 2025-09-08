@@ -3,8 +3,6 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-# h1
-
 regular line [^ref]
 
 [^ref]: test ref

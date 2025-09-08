@@ -18,7 +18,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut scap = false; // string capture: if a tag started that captures a string
     let mut lcap = false; // link capture: capture em and text for links
     let mut pcap = false; // paragraph capture: if tag started that captures a whole paragraph
-    let mut pre_head = true;
+    let mut pre_section = true;
     let mut in_list_item = false;
     let mut em_lvl = 0;
     let mut sc_lvl = 0;
@@ -62,7 +62,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             // Event::Start(Tag::Paragraph) => {},
             Event::End(TagEnd::Paragraph) if !in_list_item && !par.items.is_empty() && !pcap => {
                 let par = mem::take(&mut par);
-                if pre_head {
+                if pre_section {
                     doc.items.push(DocItem::Paragraph(par));
                 } else {
                     section_items.push(SectionItem::Paragraph(par));
@@ -90,7 +90,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                     head.tags.insert(class.to_string());
                 }
                 scap = true;
-                pre_head = false;
+                pre_section = false;
             },
             Event::End(TagEnd::Heading(_level)) => {
                 head.items.push(HeadingItem::String(mem::take(&mut string)));
@@ -297,7 +297,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 }
                 section_count += 1;
                 pcap = true;
-                pre_head = false;
+                pre_section = false;
                 let mut head = Heading::default();
                 head.items.push(HeadingItem::String(format!("{definition}")));
                 head.level = MICRO_SECTION_HEADING_LEVEL + section_count;
@@ -332,6 +332,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 }
                 section_count += 1;
                 pcap = true;
+                pre_section = false;
                 let mut head = Heading {
                     level: MICRO_SECTION_HEADING_LEVEL + section_count,
                     ..Default::default()

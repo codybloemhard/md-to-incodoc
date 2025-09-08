@@ -2956,8 +2956,6 @@ end
     test!(
         t_quote_c1,
         "
-# h1
-
 line
 > quote
 quote
@@ -2967,45 +2965,33 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
-                        items: vec![
-                            HeadingItem::String("h1".to_string()),
-                        ],
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
-                        SectionItem::Section(Section {
-                            heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
-                                ..Default::default()
-                            },
-                            items: vec![
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                            ],
-                            tags: hset!(["blockquote"]),
-                            ..Default::default()
-                        }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote"]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3017,8 +3003,6 @@ line
     test!(
         t_quote_c2,
         "
-# h1
-
 line
 > quote
 > quote
@@ -3028,45 +3012,33 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
-                        items: vec![
-                            HeadingItem::String("h1".to_string()),
-                        ],
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
-                        SectionItem::Section(Section {
-                            heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
-                                ..Default::default()
-                            },
-                            items: vec![
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                            ],
-                            tags: hset!(["blockquote"]),
-                            ..Default::default()
-                        }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote"]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3078,8 +3050,6 @@ line
     test!(
         t_quote_c3_note,
         "
-# h1
-
 line
 > [!NOTE]
 > quote
@@ -3090,54 +3060,42 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            HeadingItem::String("Note".to_string()),
                         ],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
-                        SectionItem::Section(Section {
-                            heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
-                                items: vec![
-                                    HeadingItem::String("Note".to_string()),
-                                ],
-                                ..Default::default()
-                            },
-                            items: vec![
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                            ],
-                            tags: hset!(["blockquote-typed"]),
-                            props: props!([
-                                (
-                                    "blockquote-type".to_string(),
-                                    PropVal::String("Note".to_string())
-                                ),
-                            ]),
-                            ..Default::default()
-                        }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote-typed"]),
+                    props: props!([
+                        (
+                            "blockquote-type".to_string(),
+                            PropVal::String("Note".to_string())
+                        ),
+                    ]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3149,8 +3107,6 @@ line
     test!(
         t_quote_c3_tip,
         "
-# h1
-
 line
 > [!TIP]
 > quote
@@ -3161,54 +3117,42 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            HeadingItem::String("Tip".to_string()),
                         ],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
-                        SectionItem::Section(Section {
-                            heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
-                                items: vec![
-                                    HeadingItem::String("Tip".to_string()),
-                                ],
-                                ..Default::default()
-                            },
-                            items: vec![
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                            ],
-                            tags: hset!(["blockquote-typed"]),
-                            props: props!([
-                                (
-                                    "blockquote-type".to_string(),
-                                    PropVal::String("Tip".to_string())
-                                ),
-                            ]),
-                            ..Default::default()
-                        }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote-typed"]),
+                    props: props!([
+                        (
+                            "blockquote-type".to_string(),
+                            PropVal::String("Tip".to_string())
+                        ),
+                    ]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3220,8 +3164,6 @@ line
     test!(
         t_quote_c3_important,
         "
-# h1
-
 line
 > [!IMPORTANT]
 > quote
@@ -3232,54 +3174,42 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            HeadingItem::String("Important".to_string()),
                         ],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
-                        SectionItem::Section(Section {
-                            heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
-                                items: vec![
-                                    HeadingItem::String("Important".to_string()),
-                                ],
-                                ..Default::default()
-                            },
-                            items: vec![
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                            ],
-                            tags: hset!(["blockquote-typed"]),
-                            props: props!([
-                                (
-                                    "blockquote-type".to_string(),
-                                    PropVal::String("Important".to_string())
-                                ),
-                            ]),
-                            ..Default::default()
-                        }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote-typed"]),
+                    props: props!([
+                        (
+                            "blockquote-type".to_string(),
+                            PropVal::String("Important".to_string())
+                        ),
+                    ]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3291,8 +3221,6 @@ line
     test!(
         t_quote_c3_warning,
         "
-# h1
-
 line
 > [!WARNING]
 > quote
@@ -3303,54 +3231,42 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            HeadingItem::String("Warning".to_string()),
                         ],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
-                        SectionItem::Section(Section {
-                            heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
-                                items: vec![
-                                    HeadingItem::String("Warning".to_string()),
-                                ],
-                                ..Default::default()
-                            },
-                            items: vec![
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                            ],
-                            tags: hset!(["blockquote-typed"]),
-                            props: props!([
-                                (
-                                    "blockquote-type".to_string(),
-                                    PropVal::String("Warning".to_string())
-                                ),
-                            ]),
-                            ..Default::default()
-                        }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote-typed"]),
+                    props: props!([
+                        (
+                            "blockquote-type".to_string(),
+                            PropVal::String("Warning".to_string())
+                        ),
+                    ]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3362,8 +3278,6 @@ line
     test!(
         t_quote_c3_caution,
         "
-# h1
-
 line
 > [!CAUTION]
 > quote
@@ -3374,54 +3288,42 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            HeadingItem::String("Caution".to_string()),
                         ],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
-                        SectionItem::Section(Section {
-                            heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
-                                items: vec![
-                                    HeadingItem::String("Caution".to_string()),
-                                ],
-                                ..Default::default()
-                            },
-                            items: vec![
-                                SectionItem::Paragraph(Paragraph {
-                                    items: vec![
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                        ParagraphItem::Text("quote".to_string()),
-                                    ],
-                                    ..Default::default()
-                                }),
-                            ],
-                            tags: hset!(["blockquote-typed"]),
-                            props: props!([
-                                (
-                                    "blockquote-type".to_string(),
-                                    PropVal::String("Caution".to_string())
-                                ),
-                            ]),
-                            ..Default::default()
-                        }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote-typed"]),
+                    props: props!([
+                        (
+                            "blockquote-type".to_string(),
+                            PropVal::String("Caution".to_string())
+                        ),
+                    ]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3440,8 +3342,6 @@ line
     test!(
         t_quote_c4,
         "
-# h1
-
 line
 > [!Note]
 > quote
@@ -3452,26 +3352,32 @@ line
         ",
         Doc {
             items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
                 DocItem::Section(Section {
                     heading: Heading {
-                        level: 0,
+                        level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            HeadingItem::String("Note".to_string()),
                         ],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
-                                ParagraphItem::Text("line".to_string()),
+                                ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
                         }),
                         SectionItem::Section(Section {
                             heading: Heading {
-                                level: MICRO_SECTION_HEADING_LEVEL,
+                                level: MICRO_SECTION_HEADING_LEVEL + 1,
                                 items: vec![
-                                    HeadingItem::String("Note".to_string()),
+                                    HeadingItem::String("Tip".to_string()),
                                 ],
                                 ..Default::default()
                             },
@@ -3482,47 +3388,29 @@ line
                                     ],
                                     ..Default::default()
                                 }),
-                                SectionItem::Section(Section {
-                                    heading: Heading {
-                                        level: MICRO_SECTION_HEADING_LEVEL + 1,
-                                        items: vec![
-                                            HeadingItem::String("Tip".to_string()),
-                                        ],
-                                        ..Default::default()
-                                    },
-                                    items: vec![
-                                        SectionItem::Paragraph(Paragraph {
-                                            items: vec![
-                                                ParagraphItem::Text("quote".to_string()),
-                                            ],
-                                            ..Default::default()
-                                        }),
-                                    ],
-                                    tags: hset!(["blockquote-typed"]),
-                                    props: props!([
-                                        (
-                                            "blockquote-type".to_string(),
-                                            PropVal::String("Tip".to_string())
-                                        ),
-                                    ]),
-                                    ..Default::default()
-                                }),
                             ],
                             tags: hset!(["blockquote-typed"]),
                             props: props!([
                                 (
                                     "blockquote-type".to_string(),
-                                    PropVal::String("Note".to_string())
+                                    PropVal::String("Tip".to_string())
                                 ),
                             ]),
                             ..Default::default()
                         }),
-                        SectionItem::Paragraph(Paragraph {
-                            items: vec![
-                                ParagraphItem::Text("line".to_string()),
-                            ],
-                            ..Default::default()
-                        }),
+                    ],
+                    tags: hset!(["blockquote-typed"]),
+                    props: props!([
+                        (
+                            "blockquote-type".to_string(),
+                            PropVal::String("Note".to_string())
+                        ),
+                    ]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
                     ],
                     ..Default::default()
                 }),
@@ -3533,6 +3421,87 @@ line
 
     test!(
         t_quote_c5,
+        "
+line [^ref]
+
+[^ref]: test def
+
+line
+
+> quote
+
+line
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line ".to_string()),
+                        ParagraphItem::Link(Link {
+                            items: vec![
+                                LinkItem::String("[^ref]".to_string()),
+                            ],
+                            url: "#footnote-ref".to_string(),
+                            tags: hset!(["footnote-ref"]),
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: MICRO_SECTION_HEADING_LEVEL,
+                        items: vec![
+                            HeadingItem::String("ref".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![ParagraphItem::Text("test def".to_string())],
+                            ..Default::default()
+                        }),
+                    ],
+                    tags: hset!(["footnote-def"]),
+                    props: props!([
+                        ("id".to_string(), PropVal::String("#footnote-ref".to_string())),
+                    ]),
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: MICRO_SECTION_HEADING_LEVEL,
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("quote".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    tags: hset!(["blockquote"]),
+                    ..Default::default()
+                }),
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("line".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c6,
         "
 # h1
 
