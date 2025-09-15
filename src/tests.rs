@@ -2721,7 +2721,7 @@ end
                 ),
             ]),
             items: vec![
-                DocItem::Nav(vec![]),
+                DocItem::Nav(Nav::default()),
             ],
             ..Default::default()
         }
@@ -2735,7 +2735,7 @@ tags a b c
 prop notanumber 0
 this will be ignored
 nav
-  link ignore-link-in-toplevel
+  link link in $ top level
   random stuff
 end
 +++
@@ -2749,7 +2749,16 @@ end
                 ),
             ]),
             items: vec![
-                DocItem::Nav(vec![]),
+                DocItem::Nav(Nav {
+                    links: vec![
+                        Link {
+                            url: "top level".to_string(),
+                            items: vec![LinkItem::String("link in".to_string())],
+                            ..Default::default()
+                        },
+                    ],
+                    ..Default::default()
+                }),
             ],
             ..Default::default()
         }
@@ -2767,12 +2776,13 @@ end
         ",
         Doc {
             items: vec![
-                DocItem::Nav(vec![
-                    SNav {
+                DocItem::Nav(Nav {
+                    subs: vec![Nav {
                         description: "a a a".to_string(),
                         ..Default::default()
-                    },
-                ]),
+                    }],
+                    ..Default::default()
+                }),
             ],
             ..Default::default()
         }
@@ -2789,8 +2799,7 @@ end
         ",
         Doc {
             items: vec![
-                DocItem::Nav(vec![
-                ]),
+                DocItem::Nav(Nav::default()),
             ],
             ..Default::default()
         }
@@ -2810,8 +2819,8 @@ end
         ",
         Doc {
             items: vec![
-                DocItem::Nav(vec![
-                    SNav {
+                DocItem::Nav(Nav {
+                    subs: vec![Nav {
                         description: "a a a".to_string(),
                         links: vec![
                             Link {
@@ -2826,8 +2835,9 @@ end
                             },
                         ],
                         ..Default::default()
-                    },
-                ]),
+                    }],
+                    ..Default::default()
+                }),
             ],
             ..Default::default()
         }
@@ -2852,8 +2862,8 @@ end
         ",
         Doc {
             items: vec![
-                DocItem::Nav(vec![
-                    SNav {
+                DocItem::Nav(Nav {
+                    subs: vec![Nav {
                         description: "a a a".to_string(),
                         links: vec![
                             Link {
@@ -2868,11 +2878,11 @@ end
                             },
                         ],
                         subs: vec![
-                            SNav {
+                            Nav {
                                 description: "b b b".to_string(),
                                 ..Default::default()
                             },
-                            SNav {
+                            Nav {
                                 description: "c c c".to_string(),
                                 links: vec![
                                     Link {
@@ -2885,8 +2895,9 @@ end
                             },
                         ],
                         ..Default::default()
-                    },
-                ]),
+                    }],
+                    ..Default::default()
+                }),
             ],
             ..Default::default()
         }
@@ -2907,8 +2918,8 @@ end
         Doc {
             tags: hset!(["a", "b", "c"]),
             items: vec![
-                DocItem::Nav(vec![
-                    SNav {
+                DocItem::Nav(Nav {
+                    subs: vec![Nav {
                         description: "a a a".to_string(),
                         links: vec![
                             Link {
@@ -2918,8 +2929,9 @@ end
                             },
                         ],
                         ..Default::default()
-                    },
-                ]),
+                    }],
+                    ..Default::default()
+                }),
             ],
             ..Default::default()
         }

@@ -31,13 +31,13 @@ converted:
 - footnotes
   - footnote reference -> link with tag
   - footnote definition -> section with tag and id to be linked by
+- block quote -> section with tag and possible type
 - metadata block
   - pluses metadata block -> document nav and meta
   - yaml metadata block -> discarded
 
-todo:
+might do:
 
-- block quote
 - add tags and prop within nav
 
 not yet supported in incodoc:

@@ -401,8 +401,8 @@ fn end_microsection(
 
 fn parse_metadata_block(raw: String, doc: &mut Doc) {
     let lines = raw.lines();
-    let mut navs = Nav::new();
-    let mut snav = SNav::default();
+    let mut navs = Vec::new();
+    let mut snav = Nav::default();
     for line in lines {
         let line = line.trim();
         let mut words = line.split(' ');
@@ -464,10 +464,11 @@ fn parse_metadata_block(raw: String, doc: &mut Doc) {
             _ => { },
         }
     }
-    let SNav { subs, .. } = snav;
-    if let Some(SNav { subs, .. }) = subs.into_iter().next(){
-        navs = subs;
-        doc.items.push(DocItem::Nav(navs));
+
+    let Nav { subs, .. } = snav;
+    if let Some(mut nav) = subs.into_iter().next(){
+        mem::take(&mut nav.description);
+        doc.items.push(DocItem::Nav(nav));
     }
 }
 
