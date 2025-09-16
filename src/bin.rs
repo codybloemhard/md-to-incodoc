@@ -3,12 +3,6 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-+++
-nav
-  nav a a a
-end
-+++
-
 Key                     | Value
 ------------------------|-----------------------------------
 Os                      | Artix
@@ -29,11 +23,20 @@ AUR helper              | Paru
 Keymap                  | Physical: QMK (https://github.com/codybloemhard/qmk-cody)
 Notable Utils           | Scrot, Slock, Feh, Fzf, Ag, Bat, Eza, Dust, Btop, Paclog, Reat
 Themes                  | Nord, Gruvbox, Hawkrad, Tokyo Night, Space, Dark
+
+- A | B
+  --|--
+  0 | 1
+  1 | 2
+- C | D
+  --|--
+  0 | 1
+  1 | 2
 ";
 
 fn main() {
     let doc = parse_md_to_incodoc(INPUT);
-    println!("{:#?}", doc);
+    // println!("{:#?}", doc);
     let mut output = String::new();
     doc_out(&doc, &mut output);
     println!("{output}");

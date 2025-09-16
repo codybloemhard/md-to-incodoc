@@ -30,6 +30,8 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
 
     let mut par_stack = Vec::new();
     let mut list_stack = Vec::new();
+    let mut table_stack = Vec::new();
+    let mut table_row_stack = Vec::new();
     let mut section_items = Vec::new();
     let mut pre_sections = Vec::new();
     let mut section_stack = Vec::new();
@@ -39,6 +41,8 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut head = Heading::default();
     let mut code_block = CodeBlock::default();
     let mut list = List::default();
+    let mut table = Table::default();
+    let mut table_row = TableRow::default();
     let mut link = Link::default();
     let mut doc = Doc::default();
 
@@ -360,6 +364,35 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                     &mut section_items,
                     &mut par,
                 );
+            },
+            Event::Start(Tag::Table(_)) => {
+                par_stack.push(mem::take(&mut par));
+                table_stack.push(mem::take(&mut table));
+                table_row_stack.push(mem::take(&mut table_row));
+            },
+            Event::Start(Tag::TableHead) => {
+                table_row.is_header = true;
+            },
+            Event::Start(Tag::TableRow) => {
+            },
+            Event::Start(Tag::TableCell) => {
+                pcap = true;
+            },
+            Event::End(TagEnd::TableCell) => {
+                pcap = false;
+                table_row.items.push(mem::take(&mut par));
+            },
+            Event::End(TagEnd::TableHead) => {
+                table.rows.push(mem::take(&mut table_row));
+            },
+            Event::End(TagEnd::TableRow) => {
+                table.rows.push(mem::take(&mut table_row));
+            },
+            Event::End(TagEnd::Table) => {
+                par = par_stack.pop().expect("oof");
+                par.items.push(ParagraphItem::Table(mem::take(&mut table)));
+                table = table_stack.pop().unwrap_or_default();
+                table_row = table_row_stack.pop().unwrap_or_default();
             },
             _ => { },
         }

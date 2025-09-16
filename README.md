@@ -10,6 +10,11 @@ converted:
   - unordered -> identical
   - ordered -> distinct
   - checked -> checked
+- tables
+  - nested tables not supported by parser but conversion possible
+  - lists in tables not supported by parser but conversion possible
+  - tables in lists supported
+  - text alignment -> discarded
 - code
   - inline -> text tagged "code"
   - block -> codeblock
