@@ -3606,5 +3606,498 @@ line
             ..Default::default()
         }
     );
+
+    test!(
+        t_table_c0,
+        "
+A |
+--|
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![ParagraphItem::Table(Table {
+                        rows: vec![
+                            TableRow {
+                                is_header: true,
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("A".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    })],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_table_c1,
+        "
+A | B | C
+--|---|--
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![ParagraphItem::Table(Table {
+                        rows: vec![
+                            TableRow {
+                                is_header: true,
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("A".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("B".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("C".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    })],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_table_c2_v0,
+        "
+A |
+--|
+0
+1
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![ParagraphItem::Table(Table {
+                        rows: vec![
+                            TableRow {
+                                is_header: true,
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("A".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("0".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("1".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    })],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_table_c2_v1,
+        "
+A |
+--|
+0 |
+1 |
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![ParagraphItem::Table(Table {
+                        rows: vec![
+                            TableRow {
+                                is_header: true,
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("A".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("0".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("1".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    })],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_table_c3,
+        "
+A | B | C
+--|---|--
+0 | 1 | 2
+a | b | c
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![ParagraphItem::Table(Table {
+                        rows: vec![
+                            TableRow {
+                                is_header: true,
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("A".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("B".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("C".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("0".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("1".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("2".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("a".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("b".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("c".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    })],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_table_c4,
+        "
+A | B | C
+--|---|--
+0 | 1
+a
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![ParagraphItem::Table(Table {
+                        rows: vec![
+                            TableRow {
+                                is_header: true,
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("A".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("B".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("C".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("0".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("1".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                            TableRow {
+                                items: vec![
+                                    Paragraph {
+                                        items: vec![
+                                            ParagraphItem::Text("a".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    Paragraph {
+                                        items: vec![
+                                        ],
+                                        ..Default::default()
+                                    },
+                                ],
+                                ..Default::default()
+                            },
+                        ],
+                        ..Default::default()
+                    })],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_table_c5,
+        "
+- A | B
+  --|--
+  0 | 1
+- C | D
+  --|--
+  2 | 3
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::List(List {
+                            ltype: ListType::Identical,
+                            items: vec![
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Table(Table {
+                                            rows: vec![
+                                                TableRow {
+                                                    is_header: true,
+                                                    items: vec![
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("A".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("B".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                                TableRow {
+                                                    items: vec![
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("0".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("1".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                            ],
+                                            ..Default::default()
+                                        })
+                                    ],
+                                    ..Default::default()
+                                },
+                                Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Table(Table {
+                                            rows: vec![
+                                                TableRow {
+                                                    is_header: true,
+                                                    items: vec![
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("C".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("D".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                                TableRow {
+                                                    items: vec![
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("2".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                        Paragraph {
+                                                            items: vec![
+                                                                ParagraphItem::Text("3".to_string()),
+                                                            ],
+                                                            ..Default::default()
+                                                        },
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                            ],
+                                            ..Default::default()
+                                        })
+                                    ],
+                                    ..Default::default()
+                                },
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
 }
 

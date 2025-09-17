@@ -48,4 +48,3 @@ might do:
 not yet supported in incodoc:
 
 - definition list
-- table
