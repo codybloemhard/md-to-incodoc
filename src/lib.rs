@@ -47,7 +47,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut doc = Doc::default();
 
     for event in parser {
-        println!("{event:?}");
+        // println!("{event:?}");
         match event {
             Event::Text(text) => {
                 string.push_str(&text);
