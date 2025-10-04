@@ -514,6 +514,301 @@ par
         }
     );
 
+    // previous bug didn't finish section properly with just a list in it
+    test!(
+        t_section_c10_list,
+        "
+# H1
+
+## H2
+
+- list
+
+## H2
+
+text
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![HeadingItem::String("H1".to_string())],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![HeadingItem::String("H2".to_string())],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::List(List{
+                                            ltype: ListType::Identical,
+                                            items: vec![
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::Text("list".to_string()),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![HeadingItem::String("H2".to_string())],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![ParagraphItem::Text("text".to_string())],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_section_c10_list_end,
+        "
+# H1
+
+## H2
+
+- list
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![HeadingItem::String("H1".to_string())],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![HeadingItem::String("H2".to_string())],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::List(List{
+                                            ltype: ListType::Identical,
+                                            items: vec![
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::Text("list".to_string()),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    // previous bug didn't finish section properly with just a table in it
+    test!(
+        t_section_c10_table,
+        "
+# H1
+
+## H2
+
+A | B
+--|--
+a | b
+
+## H2
+
+text
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![HeadingItem::String("H1".to_string())],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![HeadingItem::String("H2".to_string())],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![ParagraphItem::Table(Table {
+                                        rows: vec![
+                                            TableRow {
+                                                is_header: true,
+                                                items: vec![
+                                                    Paragraph {
+                                                        items: vec![
+                                                            ParagraphItem::Text("A".to_string()),
+                                                        ],
+                                                        ..Default::default()
+                                                    },
+                                                    Paragraph {
+                                                        items: vec![
+                                                            ParagraphItem::Text("B".to_string()),
+                                                        ],
+                                                        ..Default::default()
+                                                    },
+                                                ],
+                                                ..Default::default()
+                                            },
+                                            TableRow {
+                                                items: vec![
+                                                    Paragraph {
+                                                        items: vec![
+                                                            ParagraphItem::Text("a".to_string()),
+                                                        ],
+                                                        ..Default::default()
+                                                    },
+                                                    Paragraph {
+                                                        items: vec![
+                                                            ParagraphItem::Text("b".to_string()),
+                                                        ],
+                                                        ..Default::default()
+                                                    },
+                                                ],
+                                                ..Default::default()
+                                            },
+                                        ],
+                                        ..Default::default()
+                                    })],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![HeadingItem::String("H2".to_string())],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![ParagraphItem::Text("text".to_string())],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    // previous bug didn't finish section properly with just a code block in it
+    test!(
+        t_section_c10_code,
+        "
+# H1
+
+## H2
+
+```rust
+let x = 0;
+```
+
+## H2
+
+text
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![HeadingItem::String("H1".to_string())],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![HeadingItem::String("H2".to_string())],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Code(Ok(CodeBlock{
+                                            language: "rust".to_string(),
+                                            code:
+"let x = 0;
+"
+                                                .to_string(),
+                                            ..Default::default()
+                                        })),
+                                    ],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![HeadingItem::String("H2".to_string())],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![ParagraphItem::Text("text".to_string())],
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
     test!(
         t_heading_meta_c0,
         "
@@ -1660,7 +1955,7 @@ pre ***~sub~*** post
         }
     );
 
-    // pulldown-cmark doesn't generate the right events or combining strikethrough and subscript
+    // pulldown-cmark doesn't generate the right events for combining strikethrough and subscript
     // could be supported if it did
     test!(
         t_supersub_c4,

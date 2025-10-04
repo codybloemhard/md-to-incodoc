@@ -3,12 +3,11 @@ use incodoc::output::doc_out;
 
 const INPUT: &str =
 "
-- A | B
-  --|--
-  0 | 1
-- C | D
-  --|--
-  2 | 3
+# H1
+
+## H2
+
+- list
 ";
 
 fn main() {

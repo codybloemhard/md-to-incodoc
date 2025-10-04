@@ -74,6 +74,9 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             },
             Event::Start(Tag::Heading { level, id, classes, attrs }) => {
                 // commit current section
+                if !par.items.is_empty() {
+                    section_items.push(SectionItem::Paragraph(mem::take(&mut par)));
+                }
                 pre_sections.push((mem::take(&mut head), mem::take(&mut section_items)));
                 // set up new heading for new section
                 head.level = level as u8; // not the final head level
