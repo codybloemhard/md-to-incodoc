@@ -59,7 +59,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                     if let (false, false) = (inlined, prev_inlined) {
                         par.items.push(ParagraphItem::Text(mem::take(&mut string)));
                     } else {
-                        let last = par.items.len() - 1;
+                        let last = par.items.len() - 1.min(par.items.len());
                         if !par.items.is_empty() &&
                             let ParagraphItem::Text(pstring) = &mut par.items[last]
                         {

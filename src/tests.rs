@@ -231,6 +231,44 @@ text
     );
 
     test!(
+        t_par_inline_text_c5,
+        "
+'text
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("’text".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_par_inline_text_c6,
+        "
+'text
+'text
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("’text".to_string()),
+                        ParagraphItem::Text("\n’text".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
         t_section_c0,
         "
 # H1

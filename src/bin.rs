@@ -7,8 +7,8 @@ const INPUT: &str =
 
 ## H2
 
-text'
-text'
+'text
+'text
 
 ## H2
 
