@@ -5,7 +5,7 @@ use std::mem;
 use incodoc::*;
 use incodoc::actions::PruneIncodoc;
 use pulldown_cmark::{
-    Parser, Options, Event, Tag, TagEnd, CodeBlockKind, LinkType, MetadataBlockKind
+    Parser, Options, Event, Tag, TagEnd, CodeBlockKind, LinkType, MetadataBlockKind, CowStr
 };
 
 pub const MICRO_SECTION_HEADING_LEVEL: u8 = 100;
@@ -20,6 +20,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
     let mut pcap = false; // paragraph capture: if tag started that captures a whole paragraph
     let mut pre_section = true;
     let mut in_list_item = false;
+    let mut prev_inlined = false;
     let mut em_lvl = 0;
     let mut sc_lvl = 0;
     let mut html_indent = 0;
@@ -50,11 +51,24 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
         // println!("{event:?}");
         match event {
             Event::Text(text) => {
+                let inlined = matches!(&text, CowStr::Inlined(_));
                 string.push_str(&text);
                 if lcap && em_lvl == 0 && sc_lvl == 0 {
                     link.items.push(LinkItem::String(mem::take(&mut string)));
                 } else if !scap && em_lvl == 0 && sc_lvl == 0 {
-                    par.items.push(ParagraphItem::Text(mem::take(&mut string)));
+                    if let (false, false) = (inlined, prev_inlined) {
+                        par.items.push(ParagraphItem::Text(mem::take(&mut string)));
+                    } else {
+                        let last = par.items.len() - 1;
+                        if !par.items.is_empty() &&
+                            let ParagraphItem::Text(pstring) = &mut par.items[last]
+                        {
+                            pstring.push_str(&mem::take(&mut string));
+                        } else {
+                            par.items.push(ParagraphItem::Text(mem::take(&mut string)));
+                        }
+                        prev_inlined = inlined;
+                    }
                 }
             },
             Event::SoftBreak | Event::HardBreak | Event::Rule => {
@@ -62,8 +76,11 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 finish_text_piece(
                     em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
                 );
+                prev_inlined = false;
             },
-            // Event::Start(Tag::Paragraph) => {},
+            Event::Start(Tag::Paragraph) => {
+                prev_inlined = false;
+            },
             Event::End(TagEnd::Paragraph) if !in_list_item && !par.items.is_empty() && !pcap => {
                 let par = mem::take(&mut par);
                 if pre_section {

@@ -2,6 +2,9 @@
 
 Convert markdown to incodoc.
 
+Incodoc is an incorporeal document format.
+For more see: <https://github.com/codybloemhard/incodoc>
+
 converted:
 
 - paragraph -> paragraph

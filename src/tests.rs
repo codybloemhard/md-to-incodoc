@@ -126,6 +126,111 @@ par par par
     );
 
     test!(
+        t_par_inline_text_c0,
+        "
+text's
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("text’s".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_par_inline_text_c1,
+        "
+text'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("text’".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_par_inline_text_c2,
+        "
+text'
+text'
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("text’".to_string()),
+                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("text’".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_par_inline_text_c3,
+        "
+text's text
+        ",
+        Doc {
+            items: vec![DocItem::Paragraph(Paragraph {
+                items: vec![
+                    ParagraphItem::Text("text’s text".to_string()),
+                ],
+                ..Default::default()
+            })],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_par_inline_text_c4,
+        "
+text'
+
+# test
+
+text
+        ",
+        Doc {
+            items: vec![
+                DocItem::Paragraph(Paragraph {
+                    items: vec![
+                        ParagraphItem::Text("text’".to_string()),
+                    ],
+                    ..Default::default()
+                }),
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("test".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![ParagraphItem::Text("text".to_string())],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
         t_section_c0,
         "
 # H1

@@ -7,7 +7,12 @@ const INPUT: &str =
 
 ## H2
 
-- list
+text'
+text'
+
+## H2
+
+test
 ";
 
 fn main() {
