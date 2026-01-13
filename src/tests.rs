@@ -3038,6 +3038,117 @@ outside
     );
 
     test!(
+        t_footnote_c3,
+        "
+# h1
+
+line [^longernoteid]
+
+## h2
+
+par
+
+- list item
+
+[^longernoteid]:
+  line 0.
+  line 1.
+
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line ".to_string()),
+                                ParagraphItem::Link(Link {
+                                    items: vec![
+                                        LinkItem::String("[^longernoteid]".to_string()),
+                                    ],
+                                    url: "#footnote-longernoteid".to_string(),
+                                    tags: hset!(["footnote-ref"]),
+                                    ..Default::default()
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![
+                                    HeadingItem::String("h2".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("par".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::List(List {
+                                            ltype: ListType::Identical,
+                                            items: vec![
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::Text("list item".to_string()),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    ..Default::default()
+                                }),
+                                SectionItem::Section(Section {
+                                    heading: Heading {
+                                        level: MICRO_SECTION_HEADING_LEVEL,
+                                        items: vec![
+                                            HeadingItem::String("longernoteid".to_string()),
+                                        ],
+                                        ..Default::default()
+                                    },
+                                    items: vec![
+                                        SectionItem::Paragraph(Paragraph {
+                                            items: vec![
+                                                ParagraphItem::Text("line 0.".to_string()),
+                                                ParagraphItem::Text("line 1.".to_string()),
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    tags: hset!(["footnote-def"]),
+                                    props: props!([
+                                        (
+                                            "id".to_string(),
+                                            PropVal::String("#footnote-longernoteid".to_string())
+                                        ),
+                                    ]),
+                                }),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
         t_metadata_block_c0,
         "
 +++
@@ -4034,6 +4145,125 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                    ],
+                    ..Default::default()
+                }),
+            ],
+            ..Default::default()
+        }
+    );
+
+    test!(
+        t_quote_c7,
+        "
+# h1
+
+line
+
+## h2
+
+par
+
+- list item
+
+> quote
+> > [!NOTE]
+> > extra quote
+        ",
+        Doc {
+            items: vec![
+                DocItem::Section(Section {
+                    heading: Heading {
+                        level: 0,
+                        items: vec![
+                            HeadingItem::String("h1".to_string()),
+                        ],
+                        ..Default::default()
+                    },
+                    items: vec![
+                        SectionItem::Paragraph(Paragraph {
+                            items: vec![
+                                ParagraphItem::Text("line".to_string()),
+                            ],
+                            ..Default::default()
+                        }),
+                        SectionItem::Section(Section {
+                            heading: Heading {
+                                level: 1,
+                                items: vec![
+                                    HeadingItem::String("h2".to_string()),
+                                ],
+                                ..Default::default()
+                            },
+                            items: vec![
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::Text("par".to_string()),
+                                    ],
+                                    ..Default::default()
+                                }),
+                                SectionItem::Paragraph(Paragraph {
+                                    items: vec![
+                                        ParagraphItem::List(List {
+                                            ltype: ListType::Identical,
+                                            items: vec![
+                                                Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::Text("list item".to_string()),
+                                                    ],
+                                                    ..Default::default()
+                                                },
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    ..Default::default()
+                                }),
+                                SectionItem::Section(Section {
+                                    heading: Heading {
+                                        level: MICRO_SECTION_HEADING_LEVEL,
+                                        items: vec![],
+                                        ..Default::default()
+                                    },
+                                    items: vec![
+                                        SectionItem::Paragraph(Paragraph {
+                                            items: vec![
+                                                ParagraphItem::Text("quote".to_string()),
+                                            ],
+                                            ..Default::default()
+                                        }),
+                                        SectionItem::Section(Section {
+                                            heading: Heading {
+                                                level: MICRO_SECTION_HEADING_LEVEL + 1,
+                                                items: vec![
+                                                    HeadingItem::String("Note".to_string()),
+                                                ],
+                                                ..Default::default()
+                                            },
+                                            items: vec![
+                                                SectionItem::Paragraph(Paragraph {
+                                                    items: vec![
+                                                        ParagraphItem::Text("extra quote".to_string()),
+                                                    ],
+                                                    ..Default::default()
+                                                }),
+                                            ],
+                                            tags: hset!(["blockquote-typed"]),
+                                            props: props!([
+                                                (
+                                                    "blockquote-type".to_string(),
+                                                    PropVal::String("Note".to_string())
+                                                ),
+                                            ]),
+                                            ..Default::default()
+                                        }),
+                                    ],
+                                    tags: hset!(["blockquote"]),
+                                    ..Default::default()
+                                }),
                             ],
                             ..Default::default()
                         }),

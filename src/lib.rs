@@ -318,6 +318,8 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 if section_count > 0 {
                     section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
                     section_stack.push(mem::take(&mut section));
+                } else if !par.items.is_empty() {
+                    section_items.push(SectionItem::Paragraph(mem::take(&mut par)));
                 }
                 section_count += 1;
                 pcap = true;
@@ -353,6 +355,8 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 if section_count > 0 {
                     section.items.push(SectionItem::Paragraph(mem::take(&mut par)));
                     section_stack.push(mem::take(&mut section));
+                } else if !par.items.is_empty() {
+                    section_items.push(SectionItem::Paragraph(mem::take(&mut par)));
                 }
                 section_count += 1;
                 pcap = true;

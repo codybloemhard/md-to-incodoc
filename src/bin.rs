@@ -5,14 +5,17 @@ const INPUT: &str =
 "
 # H1
 
-## H2
-
-'text
-'text
+line
 
 ## H2
 
-test
+par
+
+- list item
+
+> yay yay
+> > [!NOTE]
+> > extra quote
 ";
 
 fn main() {
