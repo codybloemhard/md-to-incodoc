@@ -3,7 +3,8 @@ mod tests;
 use std::mem;
 
 use incodoc::*;
-use incodoc::actions::PruneIncodoc;
+use incodoc::actions::prune::PruneIncodoc;
+
 use pulldown_cmark::{
     Parser, Options, Event, Tag, TagEnd, CodeBlockKind, LinkType, MetadataBlockKind, CowStr
 };
@@ -330,7 +331,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 section.heading = head;
                 section.props.insert(
                     "id".to_string(),
-                    PropVal::String(format!("#footnote-{definition}"))
+                    PropVal::String(format!("footnote-{definition}"))
                 );
                 section.tags.insert("footnote-def".to_string());
             },

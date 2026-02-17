@@ -2912,7 +2912,7 @@ footnote [^0]
                 })],
                 tags: hset!(["footnote-def"]),
                 props: props!([
-                    ("id".to_string(), PropVal::String("#footnote-0".to_string())),
+                    ("id".to_string(), PropVal::String("footnote-0".to_string())),
                 ]),
             })],
             ..Default::default()
@@ -2979,7 +2979,7 @@ outside
                     ],
                     tags: hset!(["footnote-def"]),
                     props: props!([
-                        ("id".to_string(), PropVal::String("#footnote-0".to_string())),
+                        ("id".to_string(), PropVal::String("footnote-0".to_string())),
                     ]),
                 }),
                 DocItem::Section(Section {
@@ -3019,7 +3019,7 @@ outside
                             props: props!([
                                 (
                                     "id".to_string(),
-                                    PropVal::String("#footnote-longernoteid".to_string())
+                                    PropVal::String("footnote-longernoteid".to_string())
                                 ),
                             ]),
                         }),
@@ -3133,7 +3133,7 @@ par
                                     props: props!([
                                         (
                                             "id".to_string(),
-                                            PropVal::String("#footnote-longernoteid".to_string())
+                                            PropVal::String("footnote-longernoteid".to_string())
                                         ),
                                     ]),
                                 }),
@@ -4025,7 +4025,7 @@ line
                     ],
                     tags: hset!(["footnote-def"]),
                     props: props!([
-                        ("id".to_string(), PropVal::String("#footnote-ref".to_string())),
+                        ("id".to_string(), PropVal::String("footnote-ref".to_string())),
                     ]),
                 }),
                 DocItem::Paragraph(Paragraph {
@@ -4117,7 +4117,7 @@ line
                             ],
                             tags: hset!(["footnote-def"]),
                             props: props!([
-                                ("id".to_string(), PropVal::String("#footnote-ref".to_string())),
+                                ("id".to_string(), PropVal::String("footnote-ref".to_string())),
                             ]),
                         }),
                         SectionItem::Paragraph(Paragraph {
