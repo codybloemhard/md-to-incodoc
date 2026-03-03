@@ -526,7 +526,7 @@ fn parse_metadata_block(raw: String, doc: &mut Doc) {
     let Nav { subs, .. } = snav;
     if let Some(mut nav) = subs.into_iter().next(){
         mem::take(&mut nav.description);
-        doc.items.push(DocItem::Nav(nav));
+        doc.navs.push(nav);
     }
 }
 

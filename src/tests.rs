@@ -3269,8 +3269,8 @@ end
                     PropVal::String("0".to_string())
                 ),
             ]),
-            items: vec![
-                DocItem::Nav(Nav::default()),
+            navs: vec![
+                Nav::default(),
             ],
             ..Default::default()
         }
@@ -3297,8 +3297,8 @@ end
                     PropVal::String("0".to_string())
                 ),
             ]),
-            items: vec![
-                DocItem::Nav(Nav {
+            navs: vec![
+                Nav {
                     links: vec![
                         Link {
                             url: "top level".to_string(),
@@ -3307,7 +3307,7 @@ end
                         },
                     ],
                     ..Default::default()
-                }),
+                },
             ],
             ..Default::default()
         }
@@ -3324,14 +3324,14 @@ end
 +++
         ",
         Doc {
-            items: vec![
-                DocItem::Nav(Nav {
+            navs: vec![
+                Nav {
                     subs: vec![Nav {
                         description: "a a a".to_string(),
                         ..Default::default()
                     }],
                     ..Default::default()
-                }),
+                },
             ],
             ..Default::default()
         }
@@ -3347,8 +3347,8 @@ end
 +++
         ",
         Doc {
-            items: vec![
-                DocItem::Nav(Nav::default()),
+            navs: vec![
+                Nav::default(),
             ],
             ..Default::default()
         }
@@ -3367,8 +3367,8 @@ end
 +++
         ",
         Doc {
-            items: vec![
-                DocItem::Nav(Nav {
+            navs: vec![
+                Nav {
                     subs: vec![Nav {
                         description: "a a a".to_string(),
                         links: vec![
@@ -3386,7 +3386,7 @@ end
                         ..Default::default()
                     }],
                     ..Default::default()
-                }),
+                },
             ],
             ..Default::default()
         }
@@ -3410,8 +3410,8 @@ end
 +++
         ",
         Doc {
-            items: vec![
-                DocItem::Nav(Nav {
+            navs: vec![
+                Nav {
                     subs: vec![Nav {
                         description: "a a a".to_string(),
                         links: vec![
@@ -3446,7 +3446,7 @@ end
                         ..Default::default()
                     }],
                     ..Default::default()
-                }),
+                },
             ],
             ..Default::default()
         }
@@ -3466,8 +3466,8 @@ end
         ",
         Doc {
             tags: hset!(["a", "b", "c"]),
-            items: vec![
-                DocItem::Nav(Nav {
+            navs: vec![
+                Nav {
                     subs: vec![Nav {
                         description: "a a a".to_string(),
                         links: vec![
@@ -3480,7 +3480,7 @@ end
                         ..Default::default()
                     }],
                     ..Default::default()
-                }),
+                },
             ],
             ..Default::default()
         }
