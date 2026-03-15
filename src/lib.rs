@@ -55,7 +55,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 let inlined = matches!(&text, CowStr::Inlined(_));
                 string.push_str(&text);
                 if lcap && em_lvl == 0 && sc_lvl == 0 {
-                    link.items.push(LinkItem::String(mem::take(&mut string)));
+                    link.items.push(EmOrText::Text(mem::take(&mut string)));
                 } else if !scap && em_lvl == 0 && sc_lvl == 0 {
                     if let (false, false) = (inlined, prev_inlined) {
                         par.items.push(ParagraphItem::Text(mem::take(&mut string)));
@@ -118,7 +118,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 pre_section = false;
             },
             Event::End(TagEnd::Heading(_level)) => {
-                head.items.push(HeadingItem::String(mem::take(&mut string)));
+                head.items.push(EmOrText::Text(mem::take(&mut string)));
                 scap = false;
             },
             Event::Start(Tag::CodeBlock(CodeBlockKind::Fenced(language))) => {
@@ -312,7 +312,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             Event::FootnoteReference(reference) => {
                 link.url = format!("#footnote-{reference}");
                 link.tags.insert("footnote-ref".to_string());
-                link.items.push(LinkItem::String(format!("[^{reference}]")));
+                link.items.push(EmOrText::Text(format!("[^{reference}]")));
                 par.items.push(ParagraphItem::Link(mem::take(&mut link)));
             },
             Event::Start(Tag::FootnoteDefinition(definition)) => {
@@ -326,7 +326,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 pcap = true;
                 pre_section = false;
                 let mut head = Heading::default();
-                head.items.push(HeadingItem::String(format!("{definition}")));
+                head.items.push(EmOrText::Text(format!("{definition}")));
                 head.level = MICRO_SECTION_HEADING_LEVEL + section_count;
                 section.heading = head;
                 section.props.insert(
@@ -369,7 +369,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
                 head.level = MICRO_SECTION_HEADING_LEVEL + section_count;
                 if let Some(qtype) = qtype {
                     // set up new heading for new section
-                    head.items.push(HeadingItem::String(format!("{qtype:?}")));
+                    head.items.push(EmOrText::Text(format!("{qtype:?}")));
                     section.tags.insert("blockquote-typed".to_string());
                     section.props.insert(
                         "blockquote-type".to_string(),
@@ -509,7 +509,7 @@ fn parse_metadata_block(raw: String, doc: &mut Doc) {
                 for word in words {
                     if word == "$" {
                         temp.pop();
-                        link.items.push(LinkItem::String(mem::take(&mut temp)));
+                        link.items.push(EmOrText::Text(mem::take(&mut temp)));
                     } else {
                         temp.push_str(word);
                         temp.push(' ');
@@ -532,13 +532,13 @@ fn parse_metadata_block(raw: String, doc: &mut Doc) {
 
 fn finish_text_piece(
     em_lvl: i32, sc_lvl: i32, lcap: bool,
-    string: &mut String, pis: &mut Vec<ParagraphItem>, lis: &mut Vec<LinkItem>,
+    string: &mut String, pis: &mut Vec<ParagraphItem>, lis: &mut Vec<EmOrText>,
 ) {
     if string.is_empty() { return; }
     let text = mem::take(string);
     if em_lvl == 0 && sc_lvl == 0 {
         if lcap {
-            lis.push(LinkItem::String(text));
+            lis.push(EmOrText::Text(text));
         } else {
             pis.push(ParagraphItem::Text(text));
         }
@@ -558,14 +558,14 @@ fn finish_text_piece(
     }
     if em_lvl == 0 {
         if lcap {
-            lis.push(LinkItem::String(text));
+            lis.push(EmOrText::Text(text));
         } else {
             pis.push(ParagraphItem::MText(TextWithMeta{ text, tags, ..Default::default() }));
         }
     } else {
         let em = Emphasis { strength, etype, text, tags, ..Default::default() };
         if lcap {
-            lis.push(LinkItem::Em(em));
+            lis.push(EmOrText::Em(em));
         } else {
             pis.push(ParagraphItem::Em(em));
         }

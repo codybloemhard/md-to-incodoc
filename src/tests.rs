@@ -213,7 +213,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("test".to_string()),
+                            EmOrText::Text("test".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -279,7 +279,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -303,7 +303,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -313,7 +313,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -323,7 +323,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -345,7 +345,7 @@ text
                     heading: Heading {
                         level: 1,
                         items: vec![
-                            HeadingItem::String("H2".to_string()),
+                            EmOrText::Text("H2".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -367,7 +367,7 @@ text
                     heading: Heading {
                         level: 2,
                         items: vec![
-                            HeadingItem::String("H3".to_string()),
+                            EmOrText::Text("H3".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -389,7 +389,7 @@ text
                     heading: Heading {
                         level: 3,
                         items: vec![
-                            HeadingItem::String("H4".to_string()),
+                            EmOrText::Text("H4".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -411,7 +411,7 @@ text
                     heading: Heading {
                         level: 4,
                         items: vec![
-                            HeadingItem::String("H5".to_string()),
+                            EmOrText::Text("H5".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -433,7 +433,7 @@ text
                     heading: Heading {
                         level: 5,
                         items: vec![
-                            HeadingItem::String("H6".to_string()),
+                            EmOrText::Text("H6".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -477,37 +477,37 @@ text
                 DocItem::Section(Section {
                     heading: Heading {
                         level: 0,
-                        items: vec![HeadingItem::String("H1".to_string())],
+                        items: vec![EmOrText::Text("H1".to_string())],
                         ..Default::default()
                     },
                     items: vec![SectionItem::Section(Section {
                         heading: Heading {
                             level: 1,
-                            items: vec![HeadingItem::String("H2".to_string())],
+                            items: vec![EmOrText::Text("H2".to_string())],
                             ..Default::default()
                         },
                         items: vec![SectionItem::Section(Section {
                             heading: Heading {
                                 level: 2,
-                                items: vec![HeadingItem::String("H3".to_string())],
+                                items: vec![EmOrText::Text("H3".to_string())],
                                 ..Default::default()
                             },
                             items: vec![SectionItem::Section(Section {
                                 heading: Heading {
                                     level: 3,
-                                    items: vec![HeadingItem::String("H4".to_string())],
+                                    items: vec![EmOrText::Text("H4".to_string())],
                                     ..Default::default()
                                 },
                                 items: vec![SectionItem::Section(Section {
                                     heading: Heading {
                                         level: 4,
-                                        items: vec![HeadingItem::String("H5".to_string())],
+                                        items: vec![EmOrText::Text("H5".to_string())],
                                         ..Default::default()
                                     },
                                     items: vec![SectionItem::Section(Section {
                                         heading: Heading {
                                             level: 5,
-                                            items: vec![HeadingItem::String("H6".to_string())],
+                                            items: vec![EmOrText::Text("H6".to_string())],
                                             ..Default::default()
                                         },
                                         ..Default::default()
@@ -555,7 +555,7 @@ par
                 DocItem::Section(Section {
                     heading: Heading {
                         level: 0,
-                        items: vec![HeadingItem::String("H1".to_string())],
+                        items: vec![EmOrText::Text("H1".to_string())],
                         ..Default::default()
                     },
                     items: vec![
@@ -566,7 +566,7 @@ par
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -577,7 +577,7 @@ par
                                 SectionItem::Section(Section {
                                     heading: Heading {
                                         level: 3,
-                                        items: vec![HeadingItem::String("H4".to_string())],
+                                        items: vec![EmOrText::Text("H4".to_string())],
                                         ..Default::default()
                                     },
                                     items: vec![
@@ -591,7 +591,7 @@ par
                                 SectionItem::Section(Section {
                                     heading: Heading {
                                         level: 2,
-                                        items: vec![HeadingItem::String("H3".to_string())],
+                                        items: vec![EmOrText::Text("H3".to_string())],
                                         ..Default::default()
                                     },
                                     items: vec![
@@ -602,7 +602,7 @@ par
                                         SectionItem::Section(Section {
                                             heading: Heading {
                                                 level: 5,
-                                                items: vec![HeadingItem::String("H6".to_string())],
+                                                items: vec![EmOrText::Text("H6".to_string())],
                                                 ..Default::default()
                                             },
                                             items: vec![
@@ -627,7 +627,7 @@ par
                 DocItem::Section(Section {
                     heading: Heading {
                         level: 0,
-                        items: vec![HeadingItem::String("H1".to_string())],
+                        items: vec![EmOrText::Text("H1".to_string())],
                         ..Default::default()
                     },
                     items: vec![
@@ -638,7 +638,7 @@ par
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -676,14 +676,14 @@ text
                 DocItem::Section(Section {
                     heading: Heading {
                         level: 0,
-                        items: vec![HeadingItem::String("H1".to_string())],
+                        items: vec![EmOrText::Text("H1".to_string())],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -710,7 +710,7 @@ text
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -743,14 +743,14 @@ text
                 DocItem::Section(Section {
                     heading: Heading {
                         level: 0,
-                        items: vec![HeadingItem::String("H1".to_string())],
+                        items: vec![EmOrText::Text("H1".to_string())],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -803,14 +803,14 @@ text
                 DocItem::Section(Section {
                     heading: Heading {
                         level: 0,
-                        items: vec![HeadingItem::String("H1".to_string())],
+                        items: vec![EmOrText::Text("H1".to_string())],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -863,7 +863,7 @@ text
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -903,14 +903,14 @@ text
                 DocItem::Section(Section {
                     heading: Heading {
                         level: 0,
-                        items: vec![HeadingItem::String("H1".to_string())],
+                        items: vec![EmOrText::Text("H1".to_string())],
                         ..Default::default()
                     },
                     items: vec![
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -933,7 +933,7 @@ text
                         SectionItem::Section(Section {
                             heading: Heading {
                                 level: 1,
-                                items: vec![HeadingItem::String("H2".to_string())],
+                                items: vec![EmOrText::Text("H2".to_string())],
                                 ..Default::default()
                             },
                             items: vec![
@@ -963,7 +963,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         props: props!([("id".to_string(), PropVal::String("id".to_string()))]),
                         ..Default::default()
@@ -986,7 +986,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         tags: hset!(["class0", "class1"]),
                         ..Default::default()
@@ -1009,7 +1009,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         tags: hset!(["valueless"]),
                         props: props!([("key".to_string(), PropVal::String("val".to_string()))]),
@@ -1033,7 +1033,7 @@ text
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("H1".to_string()),
+                            EmOrText::Text("H1".to_string()),
                         ],
                         tags: hset!(["class", "valueless"]),
                         props: props!([
@@ -2355,8 +2355,8 @@ pre [link *em*](url 'title') post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("link ".to_string()),
-                            LinkItem::Em(Emphasis {
+                            EmOrText::Text("link ".to_string()),
+                            EmOrText::Em(Emphasis {
                                 text: "em".to_string(),
                                 ..Default::default()
                             }),
@@ -2384,7 +2384,7 @@ pre <https://url> post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("https://url".to_string()),
+                            EmOrText::Text("https://url".to_string()),
                         ],
                         url: "https://url".to_string(),
                         ..Default::default()
@@ -2408,7 +2408,7 @@ pre <a@b.c> post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("a@b.c".to_string()),
+                            EmOrText::Text("a@b.c".to_string()),
                         ],
                         url: "a@b.c".to_string(),
                         tags: hset!(["email-address".to_string()]),
@@ -2433,7 +2433,7 @@ pre [[url]] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("url".to_string()),
+                            EmOrText::Text("url".to_string()),
                         ],
                         url: "url".to_string(),
                         ..Default::default()
@@ -2457,7 +2457,7 @@ pre [[url|link]] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("link".to_string()),
+                            EmOrText::Text("link".to_string()),
                         ],
                         url: "url".to_string(),
                         ..Default::default()
@@ -2483,7 +2483,7 @@ pre [link][ref] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("link".to_string()),
+                            EmOrText::Text("link".to_string()),
                         ],
                         url: "url".to_string(),
                         props: props!([
@@ -2513,7 +2513,7 @@ pre [ref][] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("ref".to_string()),
+                            EmOrText::Text("ref".to_string()),
                         ],
                         url: "url".to_string(),
                         props: props!([
@@ -2543,7 +2543,7 @@ pre [ref] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("ref".to_string()),
+                            EmOrText::Text("ref".to_string()),
                         ],
                         url: "url".to_string(),
                         props: props!([
@@ -2571,8 +2571,8 @@ pre ![image *em*](url 'title') post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("image ".to_string()),
-                            LinkItem::Em(Emphasis {
+                            EmOrText::Text("image ".to_string()),
+                            EmOrText::Em(Emphasis {
                                 text: "em".to_string(),
                                 ..Default::default()
                             }),
@@ -2600,7 +2600,7 @@ pre ![[url]] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("url".to_string()),
+                            EmOrText::Text("url".to_string()),
                         ],
                         url: "url".to_string(),
                         tags: hset!(["image"]),
@@ -2625,7 +2625,7 @@ pre ![[url|image]] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("image".to_string()),
+                            EmOrText::Text("image".to_string()),
                         ],
                         url: "url".to_string(),
                         tags: hset!(["image"]),
@@ -2652,7 +2652,7 @@ pre ![image][ref] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("image".to_string()),
+                            EmOrText::Text("image".to_string()),
                         ],
                         url: "url".to_string(),
                         tags: hset!(["image"]),
@@ -2683,7 +2683,7 @@ pre ![ref][] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("ref".to_string()),
+                            EmOrText::Text("ref".to_string()),
                         ],
                         url: "url".to_string(),
                         tags: hset!(["image"]),
@@ -2714,7 +2714,7 @@ pre ![ref] post
                     ParagraphItem::Text("pre ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("ref".to_string()),
+                            EmOrText::Text("ref".to_string()),
                         ],
                         url: "url".to_string(),
                         tags: hset!(["image"]),
@@ -2879,7 +2879,7 @@ footnote [^0]
                     ParagraphItem::Text("footnote ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            LinkItem::String("[^0]".to_string()),
+                            EmOrText::Text("[^0]".to_string()),
                         ],
                         url: "#footnote-0".to_string(),
                         tags: hset!(["footnote-ref"]),
@@ -2902,7 +2902,7 @@ footnote [^0]
                 heading: Heading {
                     level:  MICRO_SECTION_HEADING_LEVEL,
                     items: vec![
-                        HeadingItem::String("0".to_string()),
+                        EmOrText::Text("0".to_string()),
                     ],
                     ..Default::default()
                 },
@@ -2944,7 +2944,7 @@ outside
                         ParagraphItem::Text("footnote ".to_string()),
                         ParagraphItem::Link(Link {
                             items: vec![
-                                LinkItem::String("[^0]".to_string()),
+                                EmOrText::Text("[^0]".to_string()),
                             ],
                             url: "#footnote-0".to_string(),
                             tags: hset!(["footnote-ref"]),
@@ -2954,7 +2954,7 @@ outside
                         ParagraphItem::Text("another ".to_string()),
                         ParagraphItem::Link(Link {
                             items: vec![
-                                LinkItem::String("[^longernoteid]".to_string()),
+                                EmOrText::Text("[^longernoteid]".to_string()),
                             ],
                             url: "#footnote-longernoteid".to_string(),
                             tags: hset!(["footnote-ref"]),
@@ -2967,7 +2967,7 @@ outside
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("0".to_string()),
+                            EmOrText::Text("0".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -2986,7 +2986,7 @@ outside
                     heading: Heading {
                         level: 2,
                         items: vec![
-                            HeadingItem::String("h3".to_string()),
+                            EmOrText::Text("h3".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -2995,7 +2995,7 @@ outside
                             heading: Heading {
                                 level: MICRO_SECTION_HEADING_LEVEL,
                                 items: vec![
-                                    HeadingItem::String("longernoteid".to_string()),
+                                    EmOrText::Text("longernoteid".to_string()),
                                 ],
                                 ..Default::default()
                             },
@@ -3061,7 +3061,7 @@ par
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            EmOrText::Text("h1".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -3071,7 +3071,7 @@ par
                                 ParagraphItem::Text("line ".to_string()),
                                 ParagraphItem::Link(Link {
                                     items: vec![
-                                        LinkItem::String("[^longernoteid]".to_string()),
+                                        EmOrText::Text("[^longernoteid]".to_string()),
                                     ],
                                     url: "#footnote-longernoteid".to_string(),
                                     tags: hset!(["footnote-ref"]),
@@ -3084,7 +3084,7 @@ par
                             heading: Heading {
                                 level: 1,
                                 items: vec![
-                                    HeadingItem::String("h2".to_string()),
+                                    EmOrText::Text("h2".to_string()),
                                 ],
                                 ..Default::default()
                             },
@@ -3116,7 +3116,7 @@ par
                                     heading: Heading {
                                         level: MICRO_SECTION_HEADING_LEVEL,
                                         items: vec![
-                                            HeadingItem::String("longernoteid".to_string()),
+                                            EmOrText::Text("longernoteid".to_string()),
                                         ],
                                         ..Default::default()
                                     },
@@ -3302,7 +3302,7 @@ end
                     links: vec![
                         Link {
                             url: "top level".to_string(),
-                            items: vec![LinkItem::String("link in".to_string())],
+                            items: vec![EmOrText::Text("link in".to_string())],
                             ..Default::default()
                         },
                     ],
@@ -3374,12 +3374,12 @@ end
                         links: vec![
                             Link {
                                 url: "dest 0".to_string(),
-                                items: vec![LinkItem::String("title 0".to_string())],
+                                items: vec![EmOrText::Text("title 0".to_string())],
                                 ..Default::default()
                             },
                             Link {
                                 url: "dest 1".to_string(),
-                                items: vec![LinkItem::String("title 1".to_string())],
+                                items: vec![EmOrText::Text("title 1".to_string())],
                                 ..Default::default()
                             },
                         ],
@@ -3417,12 +3417,12 @@ end
                         links: vec![
                             Link {
                                 url: "dest 0".to_string(),
-                                items: vec![LinkItem::String("title 0".to_string())],
+                                items: vec![EmOrText::Text("title 0".to_string())],
                                 ..Default::default()
                             },
                             Link {
                                 url: "dest 1".to_string(),
-                                items: vec![LinkItem::String("title 1".to_string())],
+                                items: vec![EmOrText::Text("title 1".to_string())],
                                 ..Default::default()
                             },
                         ],
@@ -3436,7 +3436,7 @@ end
                                 links: vec![
                                     Link {
                                         url: "dest 2".to_string(),
-                                        items: vec![LinkItem::String("title 2".to_string())],
+                                        items: vec![EmOrText::Text("title 2".to_string())],
                                         ..Default::default()
                                     },
                                 ],
@@ -3473,7 +3473,7 @@ end
                         links: vec![
                             Link {
                                 url: "dest 0".to_string(),
-                                items: vec![LinkItem::String("title 0".to_string())],
+                                items: vec![EmOrText::Text("title 0".to_string())],
                                 ..Default::default()
                             },
                         ],
@@ -3631,7 +3631,7 @@ line
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("Note".to_string()),
+                            EmOrText::Text("Note".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -3688,7 +3688,7 @@ line
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("Tip".to_string()),
+                            EmOrText::Text("Tip".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -3745,7 +3745,7 @@ line
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("Important".to_string()),
+                            EmOrText::Text("Important".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -3802,7 +3802,7 @@ line
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("Warning".to_string()),
+                            EmOrText::Text("Warning".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -3859,7 +3859,7 @@ line
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("Caution".to_string()),
+                            EmOrText::Text("Caution".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -3923,7 +3923,7 @@ line
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("Note".to_string()),
+                            EmOrText::Text("Note".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -3938,7 +3938,7 @@ line
                             heading: Heading {
                                 level: MICRO_SECTION_HEADING_LEVEL + 1,
                                 items: vec![
-                                    HeadingItem::String("Tip".to_string()),
+                                    EmOrText::Text("Tip".to_string()),
                                 ],
                                 ..Default::default()
                             },
@@ -4000,7 +4000,7 @@ line
                         ParagraphItem::Text("line ".to_string()),
                         ParagraphItem::Link(Link {
                             items: vec![
-                                LinkItem::String("[^ref]".to_string()),
+                                EmOrText::Text("[^ref]".to_string()),
                             ],
                             url: "#footnote-ref".to_string(),
                             tags: hset!(["footnote-ref"]),
@@ -4013,7 +4013,7 @@ line
                     heading: Heading {
                         level: MICRO_SECTION_HEADING_LEVEL,
                         items: vec![
-                            HeadingItem::String("ref".to_string()),
+                            EmOrText::Text("ref".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -4082,7 +4082,7 @@ line
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            EmOrText::Text("h1".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -4092,7 +4092,7 @@ line
                                 ParagraphItem::Text("line ".to_string()),
                                 ParagraphItem::Link(Link {
                                     items: vec![
-                                        LinkItem::String("[^ref]".to_string()),
+                                        EmOrText::Text("[^ref]".to_string()),
                                     ],
                                     url: "#footnote-ref".to_string(),
                                     tags: hset!(["footnote-ref"]),
@@ -4105,7 +4105,7 @@ line
                             heading: Heading {
                                 level: MICRO_SECTION_HEADING_LEVEL,
                                 items: vec![
-                                    HeadingItem::String("ref".to_string()),
+                                    EmOrText::Text("ref".to_string()),
                                 ],
                                 ..Default::default()
                             },
@@ -4179,7 +4179,7 @@ par
                     heading: Heading {
                         level: 0,
                         items: vec![
-                            HeadingItem::String("h1".to_string()),
+                            EmOrText::Text("h1".to_string()),
                         ],
                         ..Default::default()
                     },
@@ -4194,7 +4194,7 @@ par
                             heading: Heading {
                                 level: 1,
                                 items: vec![
-                                    HeadingItem::String("h2".to_string()),
+                                    EmOrText::Text("h2".to_string()),
                                 ],
                                 ..Default::default()
                             },
@@ -4239,7 +4239,7 @@ par
                                             heading: Heading {
                                                 level: MICRO_SECTION_HEADING_LEVEL + 1,
                                                 items: vec![
-                                                    HeadingItem::String("Note".to_string()),
+                                                    EmOrText::Text("Note".to_string()),
                                                 ],
                                                 ..Default::default()
                                             },
