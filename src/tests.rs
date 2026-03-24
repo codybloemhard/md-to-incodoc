@@ -2879,7 +2879,7 @@ footnote [^0]
                     ParagraphItem::Text("footnote ".to_string()),
                     ParagraphItem::Link(Link {
                         items: vec![
-                            EmOrText::Text("[^0]".to_string()),
+                            EmOrText::Text("0".to_string()),
                         ],
                         url: "#footnote-0".to_string(),
                         tags: hset!(["footnote-ref"]),
@@ -2944,7 +2944,7 @@ outside
                         ParagraphItem::Text("footnote ".to_string()),
                         ParagraphItem::Link(Link {
                             items: vec![
-                                EmOrText::Text("[^0]".to_string()),
+                                EmOrText::Text("0".to_string()),
                             ],
                             url: "#footnote-0".to_string(),
                             tags: hset!(["footnote-ref"]),
@@ -2954,7 +2954,7 @@ outside
                         ParagraphItem::Text("another ".to_string()),
                         ParagraphItem::Link(Link {
                             items: vec![
-                                EmOrText::Text("[^longernoteid]".to_string()),
+                                EmOrText::Text("longernoteid".to_string()),
                             ],
                             url: "#footnote-longernoteid".to_string(),
                             tags: hset!(["footnote-ref"]),
@@ -3071,7 +3071,7 @@ par
                                 ParagraphItem::Text("line ".to_string()),
                                 ParagraphItem::Link(Link {
                                     items: vec![
-                                        EmOrText::Text("[^longernoteid]".to_string()),
+                                        EmOrText::Text("longernoteid".to_string()),
                                     ],
                                     url: "#footnote-longernoteid".to_string(),
                                     tags: hset!(["footnote-ref"]),
@@ -4000,7 +4000,7 @@ line
                         ParagraphItem::Text("line ".to_string()),
                         ParagraphItem::Link(Link {
                             items: vec![
-                                EmOrText::Text("[^ref]".to_string()),
+                                EmOrText::Text("ref".to_string()),
                             ],
                             url: "#footnote-ref".to_string(),
                             tags: hset!(["footnote-ref"]),
@@ -4092,7 +4092,7 @@ line
                                 ParagraphItem::Text("line ".to_string()),
                                 ParagraphItem::Link(Link {
                                     items: vec![
-                                        EmOrText::Text("[^ref]".to_string()),
+                                        EmOrText::Text("ref".to_string()),
                                     ],
                                     url: "#footnote-ref".to_string(),
                                     tags: hset!(["footnote-ref"]),

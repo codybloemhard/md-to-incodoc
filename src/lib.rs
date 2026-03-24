@@ -312,7 +312,7 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             Event::FootnoteReference(reference) => {
                 link.url = format!("#footnote-{reference}");
                 link.tags.insert("footnote-ref".to_string());
-                link.items.push(EmOrText::Text(format!("[^{reference}]")));
+                link.items.push(EmOrText::Text(format!("{reference}")));
                 par.items.push(ParagraphItem::Link(mem::take(&mut link)));
             },
             Event::Start(Tag::FootnoteDefinition(definition)) => {
