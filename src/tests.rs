@@ -166,8 +166,7 @@ text'
         Doc {
             items: vec![DocItem::Paragraph(Paragraph {
                 items: vec![
-                    ParagraphItem::Text("text’".to_string()),
-                    ParagraphItem::Text("\n".to_string()),
+                    ParagraphItem::Text("text’\n".to_string()),
                     ParagraphItem::Text("text’".to_string()),
                 ],
                 ..Default::default()
@@ -3003,13 +3002,17 @@ outside
                                 SectionItem::Paragraph(Paragraph {
                                     items: vec![
                                         ParagraphItem::Text("line 0.".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
                                         ParagraphItem::Text("line 1.".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
                                         ParagraphItem::MText(TextWithMeta{
                                             text: "{ code }".to_string(),
                                             tags: hset!(["code"]),
                                             ..Default::default()
                                         }),
+                                        ParagraphItem::Text("\n".to_string()),
                                         ParagraphItem::Text("line 2.".to_string()),
+                                        ParagraphItem::Text("\n".to_string()),
                                         ParagraphItem::Text("line 3.".to_string()),
                                     ],
                                     ..Default::default()
@@ -3124,6 +3127,7 @@ par
                                         SectionItem::Paragraph(Paragraph {
                                             items: vec![
                                                 ParagraphItem::Text("line 0.".to_string()),
+                                                ParagraphItem::Text("\n".to_string()),
                                                 ParagraphItem::Text("line 1.".to_string()),
                                             ],
                                             ..Default::default()
@@ -3541,7 +3545,9 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
@@ -3588,7 +3594,9 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
@@ -3639,7 +3647,9 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
@@ -3696,7 +3706,9 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
@@ -3753,7 +3765,9 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
@@ -3810,7 +3824,9 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()
@@ -3867,7 +3883,9 @@ line
                         SectionItem::Paragraph(Paragraph {
                             items: vec![
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
+                                ParagraphItem::Text("\n".to_string()),
                                 ParagraphItem::Text("quote".to_string()),
                             ],
                             ..Default::default()

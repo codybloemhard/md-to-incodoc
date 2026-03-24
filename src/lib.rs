@@ -54,30 +54,17 @@ pub fn parse_md_to_incodoc(input: &str) -> Doc {
             Event::Text(text) => {
                 let inlined = matches!(&text, CowStr::Inlined(_));
                 string.push_str(&text);
-                if lcap && em_lvl == 0 && sc_lvl == 0 {
-                    link.items.push(EmOrText::Text(mem::take(&mut string)));
-                } else if !scap && em_lvl == 0 && sc_lvl == 0 {
-                    if let (false, false) = (inlined, prev_inlined) {
-                        par.items.push(ParagraphItem::Text(mem::take(&mut string)));
-                    } else {
-                        let last = par.items.len() - 1.min(par.items.len());
-                        if !par.items.is_empty() &&
-                            let ParagraphItem::Text(pstring) = &mut par.items[last]
-                        {
-                            pstring.push_str(&mem::take(&mut string));
-                        } else {
-                            par.items.push(ParagraphItem::Text(mem::take(&mut string)));
-                        }
-                        prev_inlined = inlined;
-                    }
-                }
+                add_text_piece(
+                    em_lvl, sc_lvl, lcap, scap, inlined,
+                    &mut prev_inlined, &mut par, &mut link, &mut string
+                );
             },
             Event::SoftBreak | Event::HardBreak | Event::Rule => {
                 string.push('\n');
-                finish_text_piece(
-                    em_lvl, sc_lvl, lcap, &mut string, &mut par.items, &mut link.items
+                add_text_piece(
+                    em_lvl, sc_lvl, lcap, scap, false,
+                    &mut prev_inlined, &mut par, &mut link, &mut string
                 );
-                prev_inlined = false;
             },
             Event::Start(Tag::Paragraph) => {
                 prev_inlined = false;
@@ -449,7 +436,6 @@ fn end_microsection(
     }
     if section_stack.is_empty() {
         section_stack.clear();
-        section.prune_contentless();
         if !section.is_contentless() {
             section_items.push(SectionItem::Section(mem::take(section)));
         }
@@ -572,6 +558,29 @@ fn finish_text_piece(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
+fn add_text_piece(
+    em_lvl: i32, sc_lvl: i32, lcap: bool, scap: bool, inlined: bool,
+    prev_inlined: &mut bool, par: &mut Paragraph, link: &mut Link, string: &mut String,
+) {
+    if lcap && em_lvl == 0 && sc_lvl == 0 {
+        link.items.push(EmOrText::Text(mem::take(string)));
+    } else if !scap && em_lvl == 0 && sc_lvl == 0 {
+        if let (false, false) = (inlined, &prev_inlined) {
+            par.items.push(ParagraphItem::Text(mem::take(string)));
+        } else {
+            let last = par.items.len() - 1.min(par.items.len());
+            if !par.items.is_empty() &&
+                let ParagraphItem::Text(pstring) = &mut par.items[last]
+            {
+                pstring.push_str(&mem::take(string));
+            } else {
+                par.items.push(ParagraphItem::Text(mem::take(string)));
+            }
+            *prev_inlined = inlined;
+        }
+    }
+}
 
 fn pre_sections_to_sections(mut pres: Vec<(Heading, Vec<SectionItem>)>) -> Section {
     if pres.is_empty() {

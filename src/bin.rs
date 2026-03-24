@@ -9,17 +9,20 @@ line
 
 ## H2
 
-par
+par.
+par.
+par.
 
 - list item
 
-> yay yay
-> > [!NOTE]
-> > extra quote
+> first
+> second
+> third
 ";
 
 fn main() {
-    let doc = parse_md_to_incodoc(INPUT);
+    let mut doc = parse_md_to_incodoc(INPUT);
+    // doc.squash();
     // println!("{:#?}", doc);
     let mut output = String::new();
     doc_out(&doc, &mut output);
